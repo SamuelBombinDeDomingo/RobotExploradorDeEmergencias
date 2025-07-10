@@ -1,0 +1,5065 @@
+[
+    {
+        "id": "0e5350d9d41d0f33",
+        "type": "tab",
+        "label": "Dashboard",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "bb85ad13d3aa9090",
+        "type": "comment",
+        "z": "0e5350d9d41d0f33",
+        "name": "Parametros del robot",
+        "info": "",
+        "x": 100,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "d0b4b22562a2c7a9",
+        "type": "comment",
+        "z": "0e5350d9d41d0f33",
+        "name": "Parametros internos del dashboard",
+        "info": "",
+        "x": 140,
+        "y": 20,
+        "wires": []
+    },
+    {
+        "id": "1fb7ae2e8800541a",
+        "type": "ui_artlessgauge",
+        "z": "0e5350d9d41d0f33",
+        "group": "12262bf9ba072d26",
+        "order": 4,
+        "width": 4,
+        "height": 1,
+        "name": "",
+        "icon": "fa-battery",
+        "label": "",
+        "unit": "dBm",
+        "layout": "linear",
+        "decimals": 0,
+        "differential": false,
+        "minmax": false,
+        "colorTrack": "#bd0000",
+        "style": "",
+        "colorFromTheme": true,
+        "property": "payload",
+        "secondary": "secondary",
+        "inline": false,
+        "animate": true,
+        "sectors": [
+            {
+                "val": 0,
+                "col": "#e41111",
+                "t": "min",
+                "dot": 0
+            },
+            {
+                "val": 25,
+                "col": "#ffe666",
+                "t": "sec",
+                "dot": 0
+            },
+            {
+                "val": 60,
+                "col": "#2ccc00",
+                "t": "sec",
+                "dot": 0
+            },
+            {
+                "val": 100,
+                "col": "#2ccc00",
+                "t": "max",
+                "dot": 0
+            }
+        ],
+        "lineWidth": "7",
+        "bgcolorFromTheme": true,
+        "diffCenter": "-50",
+        "x": 460,
+        "y": 580,
+        "wires": []
+    },
+    {
+        "id": "5e97469ed7795c32",
+        "type": "mqtt in",
+        "z": "0e5350d9d41d0f33",
+        "name": "",
+        "topic": "Bateria",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "9ee4d058209f2a27",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 150,
+        "y": 600,
+        "wires": [
+            [
+                "1fb7ae2e8800541a",
+                "5e54c1e662bd3d51",
+                "166be2f726ef83ce",
+                "ab3513d0bde14790",
+                "6d634f80eeee095f",
+                "911ce2f40b6ea152",
+                "54fae388cf5dcaee"
+            ]
+        ]
+    },
+    {
+        "id": "5e54c1e662bd3d51",
+        "type": "ui_gauge",
+        "z": "0e5350d9d41d0f33",
+        "name": "",
+        "group": "e111c29070c5954c",
+        "order": 9,
+        "width": 3,
+        "height": 3,
+        "gtype": "wave",
+        "title": "",
+        "label": "%",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "100",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "diff": false,
+        "className": "battery-icon",
+        "x": 430,
+        "y": 540,
+        "wires": []
+    },
+    {
+        "id": "e72f4e5233cfa3db",
+        "type": "mqtt in",
+        "z": "0e5350d9d41d0f33",
+        "name": "",
+        "topic": "RSSI",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "9ee4d058209f2a27",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 170,
+        "y": 880,
+        "wires": [
+            [
+                "1f8e80565051dca6",
+                "0c5ecea1369d6b24",
+                "06781579e7938c44",
+                "166be2f726ef83ce",
+                "8f7c3d2517076759"
+            ]
+        ]
+    },
+    {
+        "id": "166be2f726ef83ce",
+        "type": "function",
+        "z": "0e5350d9d41d0f33",
+        "name": "function 70",
+        "func": "let ActivacionRobot = flow.get('ActivacionRobot');\nlet Activacion = flow.get('Activacion');\nlet ActivacionRaspberry = flow.get('ActivacionRaspberry');\n\nif (Activacion === 0 && ActivacionRaspberry === 1 && ActivacionRobot === 1) {\n    flow.set('Activacion', 1);\n    msg.payload = \"Robot explorador de emergencias preparado\";\n} else {\n    // No es la primera llamada, devolvemos un valor fijo de 0 sin importar la entrada\n    return null;\n}\n\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 510,
+        "y": 760,
+        "wires": [
+            [
+                "f943ac0dcb0b6e88",
+                "631035c7209d393e",
+                "17fd8fc0d0fbbb5b"
+            ]
+        ]
+    },
+    {
+        "id": "d0cb096bfba18706",
+        "type": "comment",
+        "z": "0e5350d9d41d0f33",
+        "name": "Accionamientos",
+        "info": "",
+        "x": 80,
+        "y": 1000,
+        "wires": []
+    },
+    {
+        "id": "06781579e7938c44",
+        "type": "function",
+        "z": "0e5350d9d41d0f33",
+        "name": "function 183",
+        "func": "// Obtiene el número ingresado\nlet numero_RSSI = msg.payload;\nlet TiempoMensaje_RSSI = flow.get('TiempoMensaje_RSSI');\n\n// Verifica si el número es inferior a 50 y si TiempoMensaje es 1\nif (numero_RSSI < -75 && TiempoMensaje_RSSI === 1) {\n    // Establece TiempoMensaje en 0 para evitar repetir el mensaje\n    flow.set('TiempoMensaje_RSSI', 0);\n    // Devuelve \"Bateria al \" seguido del número\n    msg.payload = \"RSSI a \" + numero_RSSI + \"dBm\";\n    return msg;\n} else {\n    // No devuelve nada si el número es 50 o superior, o si TiempoMensaje no es 1\n    return null;\n}\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 450,
+        "y": 1000,
+        "wires": [
+            [
+                "1cce1c339b37d267",
+                "631035c7209d393e",
+                "17fd8fc0d0fbbb5b"
+            ]
+        ]
+    },
+    {
+        "id": "1cce1c339b37d267",
+        "type": "function",
+        "z": "0e5350d9d41d0f33",
+        "name": "function 185",
+        "func": "setTimeout(function () {\n    flow.set('TiempoMensaje_RSSI', 1); // Pasar el mensaje después del retardo\n}, 30000); // 30000 milisegundos = 30 segund",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 670,
+        "y": 1000,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "ab3513d0bde14790",
+        "type": "function",
+        "z": "0e5350d9d41d0f33",
+        "name": "function 19",
+        "func": "flow.set('ActivacionRobot',1);\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 470,
+        "y": 660,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "8f7c3d2517076759",
+        "type": "function",
+        "z": "0e5350d9d41d0f33",
+        "name": "function 67",
+        "func": "flow.set('ActivacionRaspberry',1);\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 450,
+        "y": 860,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "1f8e80565051dca6",
+        "type": "ui_artlessgauge",
+        "z": "0e5350d9d41d0f33",
+        "group": "e111c29070c5954c",
+        "order": 2,
+        "width": 3,
+        "height": 3,
+        "name": "",
+        "icon": "",
+        "label": "",
+        "unit": "dBm",
+        "layout": "radial",
+        "decimals": 0,
+        "differential": false,
+        "minmax": false,
+        "colorTrack": "#555555",
+        "style": "",
+        "colorFromTheme": true,
+        "property": "payload",
+        "secondary": "secondary",
+        "inline": false,
+        "animate": true,
+        "sectors": [
+            {
+                "val": -100,
+                "col": "#ff0000",
+                "t": "min",
+                "dot": 0
+            },
+            {
+                "val": -75,
+                "col": "#fff266",
+                "t": "sec",
+                "dot": 0
+            },
+            {
+                "val": -40,
+                "col": "#4bf948",
+                "t": "sec",
+                "dot": 0
+            },
+            {
+                "val": 0,
+                "col": "#4bf948",
+                "t": "max",
+                "dot": 0
+            }
+        ],
+        "lineWidth": 3,
+        "bgcolorFromTheme": true,
+        "diffCenter": "",
+        "x": 460,
+        "y": 920,
+        "wires": []
+    },
+    {
+        "id": "0c5ecea1369d6b24",
+        "type": "ui_artlessgauge",
+        "z": "0e5350d9d41d0f33",
+        "group": "12262bf9ba072d26",
+        "order": 1,
+        "width": 4,
+        "height": 1,
+        "name": "",
+        "icon": "fa-wifi",
+        "label": "",
+        "unit": "dBm",
+        "layout": "linear",
+        "decimals": 0,
+        "differential": false,
+        "minmax": false,
+        "colorTrack": "#bd0000",
+        "style": "",
+        "colorFromTheme": true,
+        "property": "payload",
+        "secondary": "secondary",
+        "inline": false,
+        "animate": true,
+        "sectors": [
+            {
+                "val": -100,
+                "col": "#e41111",
+                "t": "min",
+                "dot": 0
+            },
+            {
+                "val": -75,
+                "col": "#ffe666",
+                "t": "sec",
+                "dot": 0
+            },
+            {
+                "val": -40,
+                "col": "#2ccc00",
+                "t": "sec",
+                "dot": 0
+            },
+            {
+                "val": 0,
+                "col": "#2ccc00",
+                "t": "max",
+                "dot": 0
+            }
+        ],
+        "lineWidth": "7",
+        "bgcolorFromTheme": true,
+        "diffCenter": "-50",
+        "x": 460,
+        "y": 960,
+        "wires": []
+    },
+    {
+        "id": "c82b76f7.d8c918",
+        "type": "inject",
+        "z": "0e5350d9d41d0f33",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "1",
+        "topic": "",
+        "payload": "0",
+        "payloadType": "num",
+        "x": 830,
+        "y": 900,
+        "wires": [
+            [
+                "c6d52bd5734676e8"
+            ]
+        ]
+    },
+    {
+        "id": "f943ac0dcb0b6e88",
+        "type": "function",
+        "z": "0e5350d9d41d0f33",
+        "name": "function 21",
+        "func": "msg.payload = 0;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1230,
+        "y": 740,
+        "wires": [
+            [
+                "6be083fc6c16f321",
+                "a8e4056dbcd9765a",
+                "0e8dd305f10c322f",
+                "447fbaba381079f9",
+                "a5c9a15afe19cf91",
+                "635668173e39825d",
+                "86d0a2480d2b98e9",
+                "07b0c00fa43fd279",
+                "0a9b592bb193a44e",
+                "1d06ac63ddeb7150",
+                "b877522254257878",
+                "dc2a5ae924980348",
+                "b596a3261aa94a30",
+                "74dff905886beaf7"
+            ]
+        ]
+    },
+    {
+        "id": "6be083fc6c16f321",
+        "type": "mqtt out",
+        "z": "0e5350d9d41d0f33",
+        "name": "",
+        "topic": "Activacion/LED",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "9ee4d058209f2a27",
+        "x": 1680,
+        "y": 680,
+        "wires": []
+    },
+    {
+        "id": "a8e4056dbcd9765a",
+        "type": "mqtt out",
+        "z": "0e5350d9d41d0f33",
+        "name": "",
+        "topic": "Sirena",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "9ee4d058209f2a27",
+        "x": 1650,
+        "y": 740,
+        "wires": []
+    },
+    {
+        "id": "07b0c00fa43fd279",
+        "type": "mqtt out",
+        "z": "0e5350d9d41d0f33",
+        "name": "",
+        "topic": "Casa",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "9ee4d058209f2a27",
+        "x": 1650,
+        "y": 900,
+        "wires": []
+    },
+    {
+        "id": "4bcc62c7f5d08726",
+        "type": "mqtt out",
+        "z": "0e5350d9d41d0f33",
+        "name": "",
+        "topic": "Velocidad",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "9ee4d058209f2a27",
+        "x": 1900,
+        "y": 640,
+        "wires": []
+    },
+    {
+        "id": "0e8dd305f10c322f",
+        "type": "function",
+        "z": "0e5350d9d41d0f33",
+        "name": "function 68",
+        "func": "// Devuelve siempre 1.1\nmsg.payload = 1.1;\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1670,
+        "y": 640,
+        "wires": [
+            [
+                "4bcc62c7f5d08726"
+            ]
+        ]
+    },
+    {
+        "id": "447fbaba381079f9",
+        "type": "mqtt out",
+        "z": "0e5350d9d41d0f33",
+        "name": "",
+        "topic": "Modo_Navegacion",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "9ee4d058209f2a27",
+        "x": 1690,
+        "y": 580,
+        "wires": []
+    },
+    {
+        "id": "ea106165bfe7e5fa",
+        "type": "mqtt out",
+        "z": "0e5350d9d41d0f33",
+        "name": "",
+        "topic": "Servo",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "9ee4d058209f2a27",
+        "x": 1890,
+        "y": 960,
+        "wires": []
+    },
+    {
+        "id": "a5c9a15afe19cf91",
+        "type": "function",
+        "z": "0e5350d9d41d0f33",
+        "name": "function 90",
+        "func": "// Devuelve siempre 1.1\nmsg.payload = 0.4;\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1670,
+        "y": 960,
+        "wires": [
+            [
+                "ea106165bfe7e5fa"
+            ]
+        ]
+    },
+    {
+        "id": "635668173e39825d",
+        "type": "link out",
+        "z": "0e5350d9d41d0f33",
+        "name": "Botones_ConduccionAutonoma",
+        "mode": "link",
+        "links": [
+            "387d78e3f6d19061"
+        ],
+        "x": 1615,
+        "y": 540,
+        "wires": []
+    },
+    {
+        "id": "86d0a2480d2b98e9",
+        "type": "link out",
+        "z": "0e5350d9d41d0f33",
+        "name": "Boton_Activación",
+        "mode": "link",
+        "links": [
+            "cb07b295941ae9d4"
+        ],
+        "x": 1615,
+        "y": 500,
+        "wires": []
+    },
+    {
+        "id": "c6d52bd5734676e8",
+        "type": "function",
+        "z": "0e5350d9d41d0f33",
+        "name": "function 180",
+        "func": "flow.set('Activacion', 0);\nflow.set('Menor80', 1);\nflow.set('Activacion1', 0);\nflow.set('ActivacionRobot', 0);\nflow.set('ActivacionRaspberry',0);\nflow.set('NavegacionAutonoma', 0);\nflow.set('TiempoMensaje', 1);\nflow.set('TiempoMensaje_RSSI', 1);\nflow.set('Casa', 1);\nflow.set('Luces', 1);\nflow.set('Sirena', 1);\nflow.set('Tiempo', 1);\nflow.set('ModoNavegacion', 1);\nflow.set('PosicionCamara', 1);\nflow.set('Velocidad', 1);\nflow.set('Archivo', 1);\n\nflow.set('Modo', 0);  \n\nflow.set('Anterior', 0);\nflow.set('Anterior1', 0);\nflow.set('Anterior2', 0);\nflow.set('Anterior3', 0);\nflow.set('Anterior4', 0);\nflow.set('Anterior5',-0.4);\nflow.set('Anterior6', 100);\nflow.set('Anterior7', \"\");\n\nflow.set('Archivo_Automatico', \"\");\nflow.set('esPrimeraVez', true);\n\nmsg.payload = 0;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1030,
+        "y": 900,
+        "wires": [
+            [
+                "f943ac0dcb0b6e88"
+            ]
+        ]
+    },
+    {
+        "id": "631035c7209d393e",
+        "type": "mqtt out",
+        "z": "0e5350d9d41d0f33",
+        "name": "",
+        "topic": "Texto_Salida",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "9ee4d058209f2a27",
+        "x": 1110,
+        "y": 560,
+        "wires": []
+    },
+    {
+        "id": "17fd8fc0d0fbbb5b",
+        "type": "ui_toast",
+        "z": "0e5350d9d41d0f33",
+        "position": "dialog",
+        "displayTime": "3",
+        "highlight": "",
+        "sendall": true,
+        "outputs": 1,
+        "ok": "OK",
+        "cancel": "",
+        "raw": false,
+        "className": "",
+        "topic": "AVISO",
+        "name": "",
+        "x": 1110,
+        "y": 640,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "0a9b592bb193a44e",
+        "type": "mqtt out",
+        "z": "0e5350d9d41d0f33",
+        "name": "",
+        "topic": "Camara",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "9ee4d058209f2a27",
+        "x": 1660,
+        "y": 800,
+        "wires": []
+    },
+    {
+        "id": "1d06ac63ddeb7150",
+        "type": "mqtt out",
+        "z": "0e5350d9d41d0f33",
+        "name": "",
+        "topic": "Lidar",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "9ee4d058209f2a27",
+        "x": 1650,
+        "y": 840,
+        "wires": []
+    },
+    {
+        "id": "dc2a5ae924980348",
+        "type": "file",
+        "z": "0e5350d9d41d0f33",
+        "name": "",
+        "filename": "RobotExploradorDeEmergencias/src/Otros/video.avi",
+        "filenameType": "str",
+        "appendNewline": true,
+        "createDir": false,
+        "overwriteFile": "delete",
+        "encoding": "none",
+        "x": 1820,
+        "y": 1060,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "b877522254257878",
+        "type": "file",
+        "z": "0e5350d9d41d0f33",
+        "name": "",
+        "filename": "RobotExploradorDeEmergencias/src/Otros/Sensores.csv",
+        "filenameType": "str",
+        "appendNewline": true,
+        "createDir": false,
+        "overwriteFile": "delete",
+        "encoding": "none",
+        "x": 1840,
+        "y": 1020,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "6f968da695c12911",
+        "type": "ui_toast",
+        "z": "0e5350d9d41d0f33",
+        "position": "top right",
+        "displayTime": "3",
+        "highlight": " ",
+        "sendall": true,
+        "outputs": 0,
+        "ok": "OK",
+        "cancel": "",
+        "raw": false,
+        "className": " ",
+        "topic": " ",
+        "name": " ",
+        "x": 670,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "6d634f80eeee095f",
+        "type": "function",
+        "z": "0e5350d9d41d0f33",
+        "name": "function 45",
+        "func": "// Obtiene el número ingresado\nlet numero = msg.payload;\nlet TiempoMensaje = flow.get('TiempoMensaje');\n\n// Verifica si el número es inferior a 50 y si TiempoMensaje es 1\nif (numero < 15 && TiempoMensaje === 1) {\n    // Establece TiempoMensaje en 0 para evitar repetir el mensaje\n    flow.set('TiempoMensaje', 0);\n    // Devuelve \"Bateria al \" seguido del número\n    msg.payload = \"Batería al \" + numero + \"%\";\n    return msg;\n} else {\n    // No devuelve nada si el número es 50 o superior, o si TiempoMensaje no es 1\n    return null;\n}\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 450,
+        "y": 480,
+        "wires": [
+            [
+                "e8ea3440ede6d4e9",
+                "17fd8fc0d0fbbb5b",
+                "631035c7209d393e"
+            ]
+        ]
+    },
+    {
+        "id": "911ce2f40b6ea152",
+        "type": "function",
+        "z": "0e5350d9d41d0f33",
+        "name": "function 116",
+        "func": "// Obtiene el número ingresado\nlet numero = msg.payload;\n\n// Obtiene el valor actual de 'Menor80' almacenado en el contexto del flujo\nlet Menor80 = flow.get('Menor80');  // Si 'Menor80' no está definido, lo inicializa en 0\n\n// Verifica si el número es inferior a 100 y si 'Menor80' es 0\nif (numero < 80 && Menor80 === 0) {\n    // Actualiza 'Menor80' a 1 para indicar que se ha alcanzado el estado donde 'numero' es menor que 100\n    flow.set('Menor80', 1);\n}",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 450,
+        "y": 400,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "e8ea3440ede6d4e9",
+        "type": "function",
+        "z": "0e5350d9d41d0f33",
+        "name": "function 122",
+        "func": "setTimeout(function () {\n    flow.set('TiempoMensaje', 1); // Pasar el mensaje después del retardo\n}, 30000); // 30000 milisegundos = 30 segund",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 670,
+        "y": 440,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "b596a3261aa94a30",
+        "type": "link out",
+        "z": "0e5350d9d41d0f33",
+        "name": "Nombre_Datos",
+        "mode": "link",
+        "links": [
+            "8bd51ff6c71dc070"
+        ],
+        "x": 1615,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "989322c16b62c343",
+        "type": "function",
+        "z": "0e5350d9d41d0f33",
+        "name": "function 182",
+        "func": "msg.payload = \"2.mp3\";\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 650,
+        "y": 340,
+        "wires": [
+            [
+                "631035c7209d393e"
+            ]
+        ]
+    },
+    {
+        "id": "54fae388cf5dcaee",
+        "type": "function",
+        "z": "0e5350d9d41d0f33",
+        "name": "function 69",
+        "func": "// Obtiene el número ingresado\nlet numero = msg.payload;\nlet Menor80 = flow.get('Menor80');\n\n// Verifica si el número es igual a 100 y la variable Menor80 es igual a 1\nif (numero === 100 && Menor80 === 1) {\n    // Actualiza el valor de 'Menor80' a 0\n    flow.set('Menor80', 0);\n\n    // Devuelve el mensaje indicando que la batería está cargada al 100%\n    msg.payload = \"Batería del robot al 100%\";\n    msg.topic = \"Bateria\";  // Asigna el tópico \"Bateria\"\n    return msg;\n} else {\n    // No devuelve nada si las condiciones no se cumplen\n    return null;\n}\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 450,
+        "y": 340,
+        "wires": [
+            [
+                "6f968da695c12911",
+                "989322c16b62c343"
+            ]
+        ]
+    },
+    {
+        "id": "74dff905886beaf7",
+        "type": "link out",
+        "z": "0e5350d9d41d0f33",
+        "name": "link out 2",
+        "mode": "link",
+        "links": [],
+        "x": 1615,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "0896054a2d5f53c8",
+        "type": "function",
+        "z": "0e5350d9d41d0f33",
+        "name": "function 169",
+        "func": "let Nombre = flow.get('Archivo_Automatico');\nif (Nombre && Nombre.trim() !== \"\") {\n    msg.filename = \"Escritorio/RobotExploradorDeEmergencias/Datos/\" + Nombre + \".csv\";\n    return msg;\n} else {\n    return null; // No envía el mensaje si Nombre está vacío o solo tiene espacios\n}\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 2690,
+        "y": 1760,
+        "wires": [
+            [
+                "befe492e4e65f02c"
+            ]
+        ]
+    },
+    {
+        "id": "78cb64a7a6e2c010",
+        "type": "function",
+        "z": "0e5350d9d41d0f33",
+        "name": "function 172",
+        "func": "let Nombre = flow.get('Archivo_Automatico');\n\nif (Nombre && Nombre.trim() !== \"\") {\n    msg.filename = \"Escritorio/RobotExploradorDeEmergencias/Datos/\" + Nombre; + \".avi\";\n    msg.payload = msg.payload;\n    return msg;\n} else {\n    return null; // No envía el mensaje si Nombre está vacío o solo tiene espacios\n}\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 2690,
+        "y": 1800,
+        "wires": [
+            [
+                "3c49f81d81fd25fb"
+            ]
+        ]
+    },
+    {
+        "id": "5310f0a2ac8c0575",
+        "type": "function",
+        "z": "0e5350d9d41d0f33",
+        "name": "function 1",
+        "func": "// Función en el nodo Function\n// msg contiene el mensaje de entrada\n// Utilizamos node.warn para enviar el mensaje de depuración\n\nif (msg.payload === 0) {\n    // Si el payload es 0, pasa el mensaje\n    return msg;\n} else {\n    // Si no es 0, no pasa el mensaje\n    return null;\n}\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1840,
+        "y": 1460,
+        "wires": [
+            [
+                "0d9a99317d9c9eb8",
+                "027ad671a388cd56",
+                "c4ba69e7c36dd5ae"
+            ]
+        ]
+    },
+    {
+        "id": "cb89f405f1170c60",
+        "type": "function",
+        "z": "0e5350d9d41d0f33",
+        "name": "function 6",
+        "func": "// Recupera el valor desde el contexto del flujo\nlet Activacion1 = flow.get('Activacion1');\n\n// Verifica el valor de Activacion y ajusta msg.payload si es necesario\nif (Activacion1 !== 0) {\n    let Anterior3 = msg.payload;\n    flow.set('Anterior3', Anterior3);\n} else {\n    return null;\n}\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 840,
+        "y": 1360,
+        "wires": [
+            [
+                "c4ba69e7c36dd5ae"
+            ]
+        ]
+    },
+    {
+        "id": "96a98974f0d8f101",
+        "type": "function",
+        "z": "0e5350d9d41d0f33",
+        "name": "function 7",
+        "func": "// Recupera el valor desde el contexto del flujo\nlet Activacion1 = flow.get('Activacion1');\n\n\n// Verifica el valor de Activacion y ajusta msg.payload si es necesario\nif (Activacion1 !== 0 ) {\n    let Anterior4 = msg.payload;\n    flow.set('Anterior4', Anterior4);\n} else {\n    return null;\n}\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 820,
+        "y": 1520,
+        "wires": [
+            [
+                "027ad671a388cd56"
+            ]
+        ]
+    },
+    {
+        "id": "10406701b7d3d0c1",
+        "type": "function",
+        "z": "0e5350d9d41d0f33",
+        "name": "function 18",
+        "func": "// Recupera el valor desde el contexto del flujo\nlet Activacion = flow.get('Activacion');\nlet Casa = flow.get('Casa');\n\n// Verifica el valor de Activacion1 y Casa\nif (Activacion === 1 && Casa === 1) {\n    return msg;\n    \n} else {\n    return null;\n}\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1490,
+        "y": 1880,
+        "wires": [
+            [
+                "5310f0a2ac8c0575",
+                "f1c0250a5718c175",
+                "1e6186964b1e60b1",
+                "e0bec99259f91735",
+                "95e1de9e908afde5",
+                "a861c5174c4d202c",
+                "6deed6fe045d4f56",
+                "727d47b64c6b3b7e",
+                "8cbd5ee0ff3f6988",
+                "3d6e75216f4059d4",
+                "02fc708750d62c86"
+            ]
+        ]
+    },
+    {
+        "id": "f1c0250a5718c175",
+        "type": "function",
+        "z": "0e5350d9d41d0f33",
+        "name": "function 26",
+        "func": "flow.set('Casa', 0);\nflow.set('Anterior1', 0);\nflow.set('Anterior2', 0);\nflow.set('Anterior3', 0);\nflow.set('Anterior4', 0);\nflow.set('Anterior5', -0.4);\nflow.set('Anterior6', 100);\nflow.set('Anterior7', \"\");\nflow.set('Hay_Archivo', 0);\nflow.set('Modo', 0);  \nflow.set('NavegacionAutonoma', 0);\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1830,
+        "y": 1660,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "00fbb57b0d372e98",
+        "type": "mqtt out",
+        "z": "0e5350d9d41d0f33",
+        "name": "",
+        "topic": "Casa",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "9ee4d058209f2a27",
+        "x": 2050,
+        "y": 1980,
+        "wires": []
+    },
+    {
+        "id": "f8243c1e7f0f0269",
+        "type": "switch",
+        "z": "0e5350d9d41d0f33",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "1",
+                "vt": "num"
+            },
+            {
+                "t": "eq",
+                "v": "0",
+                "vt": "num"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 670,
+        "y": 1860,
+        "wires": [
+            [
+                "10406701b7d3d0c1"
+            ],
+            [
+                "fe156d691654a83f",
+                "79988dcbd62209e5"
+            ]
+        ]
+    },
+    {
+        "id": "6e317fe68a8edc8d",
+        "type": "mqtt out",
+        "z": "0e5350d9d41d0f33",
+        "name": "",
+        "topic": "Velocidad",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "9ee4d058209f2a27",
+        "x": 1280,
+        "y": 2320,
+        "wires": []
+    },
+    {
+        "id": "fe156d691654a83f",
+        "type": "function",
+        "z": "0e5350d9d41d0f33",
+        "name": "function 56",
+        "func": "let Visible = flow.get('Visible');\nif (Visible === 0) {\n    msg.payload =1;\n    return msg;       // Devuelve el mensaje modificado para enviarlo\n} ",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 830,
+        "y": 2000,
+        "wires": [
+            [
+                "e6c3f89e91846b0f",
+                "23860ad0fa1797af",
+                "4a2788ceea4aa319"
+            ]
+        ]
+    },
+    {
+        "id": "ee40ca1417f5c2f7",
+        "type": "mqtt out",
+        "z": "0e5350d9d41d0f33",
+        "name": "",
+        "topic": "Servo",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "9ee4d058209f2a27",
+        "x": 1430,
+        "y": 3000,
+        "wires": []
+    },
+    {
+        "id": "70b4c494492136be",
+        "type": "mqtt out",
+        "z": "0e5350d9d41d0f33",
+        "name": "",
+        "topic": "Modo_Navegacion",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "9ee4d058209f2a27",
+        "x": 1410,
+        "y": 2640,
+        "wires": []
+    },
+    {
+        "id": "1cbc8f16904eb18b",
+        "type": "function",
+        "z": "0e5350d9d41d0f33",
+        "name": "function 81",
+        "func": "\n\n// Envía un mensaje al ui_template\nmsg.payload = flow.get('NavegacionAutonoma');\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1250,
+        "y": 2540,
+        "wires": [
+            [
+                "cd5f761ce56d3fa3",
+                "ce395e8e6ffc4a67"
+            ]
+        ]
+    },
+    {
+        "id": "29bf473929984b41",
+        "type": "mqtt out",
+        "z": "0e5350d9d41d0f33",
+        "name": "",
+        "topic": "Ir_baliza",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "9ee4d058209f2a27",
+        "x": 2000,
+        "y": 2540,
+        "wires": []
+    },
+    {
+        "id": "0ed7f324dc16e3cb",
+        "type": "function",
+        "z": "0e5350d9d41d0f33",
+        "name": "function 82",
+        "func": "let Activacion1 = flow.get('Activacion1');\nlet ModoNavegacion = flow.get('ModoNavegacion');\n\n// Verifica el valor de Activacion1 y Casa\nif (Activacion1 === 0 || ModoNavegacion === 0 ) {\n    let Anterior4 = flow.get('Anterior4');\n    msg.payload = Anterior4;\n}\nelse {\n    return null;\n}\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 430,
+        "y": 2740,
+        "wires": [
+            [
+                "ba0e4e602355a3a7"
+            ]
+        ]
+    },
+    {
+        "id": "e29dfb27a2511959",
+        "type": "function",
+        "z": "0e5350d9d41d0f33",
+        "name": "function 86",
+        "func": "// Recupera el valor desde el contexto del flujo\nlet Activacion1 = flow.get('Activacion1');\nlet ModoNavegacion = flow.get('ModoNavegacion');\n\n\n// Verifica el valor de Activacion y ajusta msg.payload si es necesario\nif ( Activacion1 !== 0 && ModoNavegacion !== 0) {\n    let Anterior4 = msg.payload;\n    flow.set('Anterior4', Anterior4);\n} else {\n    return null;\n}\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 810,
+        "y": 2640,
+        "wires": [
+            [
+                "70b4c494492136be",
+                "ed9f034c83100c1a",
+                "4dde8d03b954b6f4"
+            ]
+        ]
+    },
+    {
+        "id": "4dde8d03b954b6f4",
+        "type": "function",
+        "z": "0e5350d9d41d0f33",
+        "name": "function 87",
+        "func": "// Convierte el payload a un número\nvar payloadNumber = Number(msg.payload);\n\n// Verifica el valor recibido en el payload\nif (payloadNumber === 3) {\n    // Establece la variable de flujo 'NavegacionAutonoma' a 1\n    flow.set('NavegacionAutonoma', 1);\n} else {\n    flow.set('NavegacionAutonoma', 0);\n}\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 970,
+        "y": 2580,
+        "wires": [
+            [
+                "1cbc8f16904eb18b"
+            ]
+        ]
+    },
+    {
+        "id": "b9768b5302428673",
+        "type": "mqtt out",
+        "z": "0e5350d9d41d0f33",
+        "name": "",
+        "topic": "Servo",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "9ee4d058209f2a27",
+        "x": 2010,
+        "y": 1600,
+        "wires": []
+    },
+    {
+        "id": "6deed6fe045d4f56",
+        "type": "function",
+        "z": "0e5350d9d41d0f33",
+        "name": "function 91",
+        "func": "// Devuelve siempre 1.1\nmsg.payload = 0.4;\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1830,
+        "y": 1600,
+        "wires": [
+            [
+                "b9768b5302428673"
+            ]
+        ]
+    },
+    {
+        "id": "5b5ba012274e1f8e",
+        "type": "mqtt out",
+        "z": "0e5350d9d41d0f33",
+        "name": "",
+        "topic": "Ir_casa",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "9ee4d058209f2a27",
+        "x": 1640,
+        "y": 2580,
+        "wires": []
+    },
+    {
+        "id": "842024288e195c48",
+        "type": "mqtt in",
+        "z": "0e5350d9d41d0f33",
+        "name": "",
+        "topic": "Servo",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "9ee4d058209f2a27",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 150,
+        "y": 3000,
+        "wires": [
+            [
+                "c6271ea8009119eb"
+            ]
+        ]
+    },
+    {
+        "id": "13ba9e4696af098b",
+        "type": "function",
+        "z": "0e5350d9d41d0f33",
+        "name": "function 92",
+        "func": "let Activacion1 = flow.get('Activacion1');\nlet PosicionCamara = flow.get('PosicionCamara');\n\n// Verifica si alguno de los valores es igual a 0 (usando OR)\nif (Activacion1 === 0 || PosicionCamara === 0) {\n    let Anterior5 = flow.get('Anterior5');\n    msg.payload = Anterior5;\n    return msg;  // Devuelve el mensaje solo si la condición se cumple\n} else {\n    return null;  // No devuelve ningún mensaje si la condición no se cumple\n}\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 563,
+        "y": 3091,
+        "wires": [
+            [
+                "fb4e1c8122bdad30"
+            ]
+        ]
+    },
+    {
+        "id": "e9fac01b397e2c00",
+        "type": "function",
+        "z": "0e5350d9d41d0f33",
+        "name": "function 62",
+        "func": "\nmsg.payload = (msg.payload * 100) / 1.1;\n\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 350,
+        "y": 2320,
+        "wires": [
+            [
+                "b6318b0125dee00c"
+            ]
+        ]
+    },
+    {
+        "id": "688c1a38ef319371",
+        "type": "mqtt out",
+        "z": "0e5350d9d41d0f33",
+        "name": "",
+        "topic": "Velocidad",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "9ee4d058209f2a27",
+        "x": 2020,
+        "y": 1540,
+        "wires": []
+    },
+    {
+        "id": "a861c5174c4d202c",
+        "type": "function",
+        "z": "0e5350d9d41d0f33",
+        "name": "function 99",
+        "func": "// Devuelve siempre 1.1\nmsg.payload = 1.1;\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1830,
+        "y": 1540,
+        "wires": [
+            [
+                "688c1a38ef319371"
+            ]
+        ]
+    },
+    {
+        "id": "2380e4a45ffc7948",
+        "type": "function",
+        "z": "0e5350d9d41d0f33",
+        "name": "function 100",
+        "func": "let Activacion1 = flow.get('Activacion1');\nlet Velocidad = flow.get('Velocidad');\n\n// Verifica si ambos valores son iguales a 0\nif (Activacion1 === 0 || Velocidad === 0) {\n    let Anterior6 = flow.get('Anterior6');\n    msg.payload = Anterior6;  // Asigna el valor de Anterior6 a msg.payload\n} else {\n    return null;  // No se envía ningún mensaje si la condición no se cumple\n}\n\nreturn msg;  // Devuelve el mensaje si ambas condiciones son verdaderas\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 590,
+        "y": 2400,
+        "wires": [
+            [
+                "b6318b0125dee00c"
+            ]
+        ]
+    },
+    {
+        "id": "a8f1c84574d45ef8",
+        "type": "function",
+        "z": "0e5350d9d41d0f33",
+        "name": "function 101",
+        "func": "// Recupera el valor desde el contexto del flujo\nlet Activacion1 = flow.get('Activacion1');\nlet Velocidad = flow.get('Velocidad');\n\n// Verifica el valor de Activacion1 y PosicionCamara, y ajusta msg.payload si es necesario\nif (Activacion1 == 1 && Velocidad == 1) {\n    // Guarda el valor actual de msg.payload en Anterior5 y lo almacena en el contexto de flujo\n    let Anterior5 = msg.payload;\n    flow.set('Anterior5', Anterior5);  // Guarda el valor actual de msg.payload en el contexto de flujo\n} else {\n    return null;  // Si no se cumple la condición, no envía ningún mensaje\n}\n\nreturn msg;  // Devuelve el mensaje original, sin cambios\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 970,
+        "y": 2320,
+        "wires": [
+            [
+                "6e317fe68a8edc8d"
+            ]
+        ]
+    },
+    {
+        "id": "c6271ea8009119eb",
+        "type": "function",
+        "z": "0e5350d9d41d0f33",
+        "name": "function 131",
+        "func": "msg.payload = msg.payload*-1;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 370,
+        "y": 3000,
+        "wires": [
+            [
+                "fb4e1c8122bdad30"
+            ]
+        ]
+    },
+    {
+        "id": "76f1f14ad9504d54",
+        "type": "function",
+        "z": "0e5350d9d41d0f33",
+        "name": "function 132",
+        "func": "msg.payload = msg.payload*-1;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 970,
+        "y": 3000,
+        "wires": [
+            [
+                "ee40ca1417f5c2f7"
+            ]
+        ]
+    },
+    {
+        "id": "a678aacdb1ccf269",
+        "type": "function",
+        "z": "0e5350d9d41d0f33",
+        "name": "function 133",
+        "func": "// Captura el valor de Activacion desde msg.payload\nlet Activacion = msg.payload;\n\n// Guarda el valor en el contexto del flujo\nflow.set('Activacion1', Activacion);\n\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 2170,
+        "y": 1880,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "1dd5449684fea5e7",
+        "type": "function",
+        "z": "0e5350d9d41d0f33",
+        "name": "function 135",
+        "func": "// Recupera el valor desde el contexto del flujo\nlet Activacion1 = flow.get('Activacion1');\nlet PosicionCamara = flow.get('PosicionCamara');\n\n// Verifica el valor de Activacion1 y PosicionCamara, y ajusta msg.payload si es necesario\nif (Activacion1 == 1 && PosicionCamara == 1) {\n    // Guarda el valor actual de msg.payload en Anterior5 y lo almacena en el contexto de flujo\n    let Anterior5 = msg.payload;\n    flow.set('Anterior5', Anterior5);  // Guarda el valor actual de msg.payload en el contexto de flujo\n} else {\n    return null;  // Si no se cumple la condición, no envía ningún mensaje\n}\n\nreturn msg;  // Devuelve el mensaje original, sin cambios\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 730,
+        "y": 3000,
+        "wires": [
+            [
+                "76f1f14ad9504d54"
+            ]
+        ]
+    },
+    {
+        "id": "ed9f034c83100c1a",
+        "type": "function",
+        "z": "0e5350d9d41d0f33",
+        "name": "function 137",
+        "func": "if (msg.payload == 0 || msg.payload == 1) {\n   \n  flow.set('Anterior7', \"\");\n}\nelse {\n  flow.set('Modo', 1);\n  flow.set('Archivo', 1);\n}\nlet Modo= msg.payload;\n flow.set('Modo',Modo);",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 990,
+        "y": 2700,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "727d47b64c6b3b7e",
+        "type": "link out",
+        "z": "0e5350d9d41d0f33",
+        "name": "Boton_Activación",
+        "mode": "link",
+        "links": [
+            "cb07b295941ae9d4",
+            "d2a569778f6b7582"
+        ],
+        "x": 1765,
+        "y": 2140,
+        "wires": []
+    },
+    {
+        "id": "6f42fc032dabd3f0",
+        "type": "link out",
+        "z": "0e5350d9d41d0f33",
+        "name": "Boton_Activación",
+        "mode": "link",
+        "links": [
+            "cb07b295941ae9d4"
+        ],
+        "x": 755,
+        "y": 2700,
+        "wires": []
+    },
+    {
+        "id": "387d78e3f6d19061",
+        "type": "link in",
+        "z": "0e5350d9d41d0f33",
+        "name": "link in 3",
+        "links": [
+            "1e6186964b1e60b1",
+            "635668173e39825d"
+        ],
+        "x": 1025,
+        "y": 2540,
+        "wires": [
+            [
+                "1cbc8f16904eb18b"
+            ]
+        ]
+    },
+    {
+        "id": "1e6186964b1e60b1",
+        "type": "link out",
+        "z": "0e5350d9d41d0f33",
+        "name": "Botones_ConduccionAutonoma",
+        "mode": "link",
+        "links": [
+            "387d78e3f6d19061"
+        ],
+        "x": 1765,
+        "y": 2080,
+        "wires": []
+    },
+    {
+        "id": "95e1de9e908afde5",
+        "type": "mqtt out",
+        "z": "0e5350d9d41d0f33",
+        "name": "",
+        "topic": "Activacion",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "9ee4d058209f2a27",
+        "x": 1810,
+        "y": 2020,
+        "wires": []
+    },
+    {
+        "id": "895d438db1f3d6be",
+        "type": "function",
+        "z": "0e5350d9d41d0f33",
+        "name": "function 139",
+        "func": "msg.payload = (msg.payload * 1.1) / 100;\n\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 770,
+        "y": 2320,
+        "wires": [
+            [
+                "a8f1c84574d45ef8"
+            ]
+        ]
+    },
+    {
+        "id": "adc64fcb13e44072",
+        "type": "file",
+        "z": "0e5350d9d41d0f33",
+        "name": "",
+        "filename": "RobotExploradorDeEmergencias/src/Otros/Sensores.csv",
+        "filenameType": "str",
+        "appendNewline": true,
+        "createDir": false,
+        "overwriteFile": "delete",
+        "encoding": "none",
+        "x": 2300,
+        "y": 2240,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "e0bec99259f91735",
+        "type": "function",
+        "z": "0e5350d9d41d0f33",
+        "name": "function 155",
+        "func": "// Función en el nodo Function\n// msg contiene el mensaje de entrada\n// Utilizamos node.warn para enviar el mensaje de depuración\n\nif (msg.payload === 1) {\n    // Si el payload es 0, pasa el mensaje\n    return msg;\n} else {\n    // Si no es 0, no pasa el mensaje\n    return null;\n}\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1830,
+        "y": 2180,
+        "wires": [
+            [
+                "adc64fcb13e44072",
+                "bff4f649f50527d4",
+                "6f0ee52c175fd75a",
+                "8ae4063a390833e8"
+            ]
+        ]
+    },
+    {
+        "id": "bff4f649f50527d4",
+        "type": "link out",
+        "z": "0e5350d9d41d0f33",
+        "name": "Nombre_Datos",
+        "mode": "link",
+        "links": [
+            "8bd51ff6c71dc070"
+        ],
+        "x": 2075,
+        "y": 2120,
+        "wires": []
+    },
+    {
+        "id": "4725be9f1edae22e",
+        "type": "file in",
+        "z": "0e5350d9d41d0f33",
+        "name": "",
+        "filename": "RobotExploradorDeEmergencias/src/Otros/Sensores.csv",
+        "filenameType": "str",
+        "format": "stream",
+        "chunk": false,
+        "sendError": false,
+        "encoding": "none",
+        "allProps": true,
+        "x": 2370,
+        "y": 1760,
+        "wires": [
+            [
+                "0896054a2d5f53c8"
+            ]
+        ]
+    },
+    {
+        "id": "1ed5eeb0377543df",
+        "type": "file in",
+        "z": "0e5350d9d41d0f33",
+        "name": "",
+        "filename": "RobotExploradorDeEmergencias/src/Otros/video.avi",
+        "filenameType": "str",
+        "format": "stream",
+        "chunk": false,
+        "sendError": false,
+        "encoding": "none",
+        "allProps": true,
+        "x": 2360,
+        "y": 1800,
+        "wires": [
+            [
+                "78cb64a7a6e2c010"
+            ]
+        ]
+    },
+    {
+        "id": "6f0ee52c175fd75a",
+        "type": "function",
+        "z": "0e5350d9d41d0f33",
+        "name": "function 174",
+        "func": "flow.set('Archivo_Automatico', \"\");",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 2150,
+        "y": 2300,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "0d9a99317d9c9eb8",
+        "type": "mqtt out",
+        "z": "0e5350d9d41d0f33",
+        "name": "",
+        "topic": "Modo_Navegacion",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "9ee4d058209f2a27",
+        "x": 2090,
+        "y": 1460,
+        "wires": []
+    },
+    {
+        "id": "5c7235688a78ecdd",
+        "type": "function",
+        "z": "0e5350d9d41d0f33",
+        "name": "function 186",
+        "func": "if (msg.payload == 0) {\n    msg.payload = \"Enchufe el cable de carga\";\n    return msg;\n}\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1410,
+        "y": 1560,
+        "wires": [
+            [
+                "87e2cedb8cf437cb",
+                "7ddd2cc2b6161c68"
+            ]
+        ]
+    },
+    {
+        "id": "87e2cedb8cf437cb",
+        "type": "mqtt out",
+        "z": "0e5350d9d41d0f33",
+        "name": "",
+        "topic": "Texto_Salida",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "9ee4d058209f2a27",
+        "x": 1610,
+        "y": 1600,
+        "wires": []
+    },
+    {
+        "id": "5a758cfb0afa7f42",
+        "type": "delay",
+        "z": "0e5350d9d41d0f33",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "0.2",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 1230,
+        "y": 1560,
+        "wires": [
+            [
+                "5c7235688a78ecdd"
+            ]
+        ]
+    },
+    {
+        "id": "027ad671a388cd56",
+        "type": "mqtt out",
+        "z": "0e5350d9d41d0f33",
+        "name": "",
+        "topic": "Sirena",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "9ee4d058209f2a27",
+        "x": 2070,
+        "y": 1400,
+        "wires": []
+    },
+    {
+        "id": "c4ba69e7c36dd5ae",
+        "type": "mqtt out",
+        "z": "0e5350d9d41d0f33",
+        "name": "",
+        "topic": "Activacion/LED",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "9ee4d058209f2a27",
+        "x": 2100,
+        "y": 1340,
+        "wires": []
+    },
+    {
+        "id": "e8960384fedd59ab",
+        "type": "mqtt in",
+        "z": "0e5350d9d41d0f33",
+        "name": "",
+        "topic": "Velocidad",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "9ee4d058209f2a27",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 120,
+        "y": 2320,
+        "wires": [
+            [
+                "e9fac01b397e2c00"
+            ]
+        ]
+    },
+    {
+        "id": "33d525646ca2416e",
+        "type": "function",
+        "z": "0e5350d9d41d0f33",
+        "name": "function 192",
+        "func": "msg.payload = \"La estación de carga no es visible\";\nreturn msg; // Devuelve el mensaje modificado si el valor es 0\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1210,
+        "y": 2160,
+        "wires": [
+            [
+                "b93a84b801b6409f",
+                "0507b7f1a67fa596"
+            ]
+        ]
+    },
+    {
+        "id": "1aca525da35c30fd",
+        "type": "mqtt in",
+        "z": "0e5350d9d41d0f33",
+        "name": "",
+        "topic": "Visible",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "9ee4d058209f2a27",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 310,
+        "y": 1720,
+        "wires": [
+            [
+                "60deaa9098493f02"
+            ]
+        ]
+    },
+    {
+        "id": "60deaa9098493f02",
+        "type": "function",
+        "z": "0e5350d9d41d0f33",
+        "name": "function 194",
+        "func": "let Visible = Number(msg.payload);  // Asegura que el valor es un número\nflow.set('Visible', Visible);  // Almacena el número en el contexto de flujo\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 530,
+        "y": 1720,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "63520cc3ca6892c4",
+        "type": "function",
+        "z": "0e5350d9d41d0f33",
+        "name": "function 8",
+        "func": "if (msg.payload == 0) {\n   msg.payload = \"1.mp3\";\n}else {\n    msg.payload = \"3.mp3\";\n} \nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1080,
+        "y": 1760,
+        "wires": [
+            [
+                "87e2cedb8cf437cb"
+            ]
+        ]
+    },
+    {
+        "id": "3d6e75216f4059d4",
+        "type": "function",
+        "z": "0e5350d9d41d0f33",
+        "name": "function 3",
+        "func": "if (msg.payload == 1) {\n    return null;\n} else {\n    // Pasar el mensaje sin retardo\n    return msg;\n}",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1840,
+        "y": 1880,
+        "wires": [
+            [
+                "00fbb57b0d372e98",
+                "a678aacdb1ccf269",
+                "4725be9f1edae22e",
+                "1ed5eeb0377543df"
+            ]
+        ]
+    },
+    {
+        "id": "e6c3f89e91846b0f",
+        "type": "link out",
+        "z": "0e5350d9d41d0f33",
+        "name": "link out 1",
+        "mode": "link",
+        "links": [],
+        "x": 1045,
+        "y": 2000,
+        "wires": []
+    },
+    {
+        "id": "0507b7f1a67fa596",
+        "type": "mqtt out",
+        "z": "0e5350d9d41d0f33",
+        "name": "",
+        "topic": "Texto_Salida",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "9ee4d058209f2a27",
+        "x": 1430,
+        "y": 2100,
+        "wires": []
+    },
+    {
+        "id": "8cbd5ee0ff3f6988",
+        "type": "mqtt out",
+        "z": "0e5350d9d41d0f33",
+        "name": "",
+        "topic": "Camara",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "9ee4d058209f2a27",
+        "x": 2040,
+        "y": 1680,
+        "wires": []
+    },
+    {
+        "id": "79988dcbd62209e5",
+        "type": "function",
+        "z": "0e5350d9d41d0f33",
+        "name": "function 199",
+        "func": "let Visible = flow.get('Visible');\nif (Visible === 1) {\n    return msg;       // Devuelve el mensaje modificado para enviarlo\n} ",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 950,
+        "y": 1900,
+        "wires": [
+            [
+                "10406701b7d3d0c1"
+            ]
+        ]
+    },
+    {
+        "id": "061fc900f712e6f6",
+        "type": "function",
+        "z": "0e5350d9d41d0f33",
+        "name": "function 49",
+        "func": "// Obtener el valor actual de Activacion\nvar Activacion1 = flow.get('Activacion1');\nvar Activacion = flow.get('Activacion');\nlet Casa = flow.get('Casa');\n// Verificar y cambiar el valor según la condición\nif (Activacion1 === 0 && Activacion === 1 && Casa === 1){\n     msg.payload = 1;\n     return msg;// No hacer nada si activacion es 1\n   \n} else {\n     return null;  // Devolver null para indicar que no se envía ningún mensaje\n} \n\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 530,
+        "y": 1780,
+        "wires": [
+            [
+                "10406701b7d3d0c1"
+            ]
+        ]
+    },
+    {
+        "id": "f18505c417127c88",
+        "type": "mqtt in",
+        "z": "0e5350d9d41d0f33",
+        "name": "",
+        "topic": "Boton",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "9ee4d058209f2a27",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 310,
+        "y": 1780,
+        "wires": [
+            [
+                "061fc900f712e6f6"
+            ]
+        ]
+    },
+    {
+        "id": "23c41e868a158f54",
+        "type": "function",
+        "z": "0e5350d9d41d0f33",
+        "name": "function 200",
+        "func": "\n    let Anterior = flow.get('Anterior');\n    msg.payload = Anterior;\n\n    \nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 330,
+        "y": 1860,
+        "wires": [
+            [
+                "57c1665526994a78"
+            ]
+        ]
+    },
+    {
+        "id": "2e67a533adf34c6a",
+        "type": "inject",
+        "z": "0e5350d9d41d0f33",
+        "name": "",
+        "props": [],
+        "repeat": "0.1",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 160,
+        "y": 1860,
+        "wires": [
+            [
+                "23c41e868a158f54"
+            ]
+        ]
+    },
+    {
+        "id": "326b34f7a66e943c",
+        "type": "function",
+        "z": "0e5350d9d41d0f33",
+        "name": "function 37",
+        "func": "let Activacion1 = flow.get('Activacion1');\n\n\n// Verifica el valor de Activacion1 y Casa\nif (Activacion1 === 0 ) {\n    let Anterior3 = flow.get('Anterior3');\n    msg.payload = Anterior3;\n}\nelse {\n    return null;\n}\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 550,
+        "y": 1420,
+        "wires": [
+            [
+                "10b646d4f4f061e0"
+            ]
+        ]
+    },
+    {
+        "id": "2efd3e3eea53a499",
+        "type": "mqtt in",
+        "z": "0e5350d9d41d0f33",
+        "name": "",
+        "topic": "Activacion/LED",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "9ee4d058209f2a27",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 200,
+        "y": 1360,
+        "wires": [
+            [
+                "10b646d4f4f061e0"
+            ]
+        ]
+    },
+    {
+        "id": "6697b7c2da984ef6",
+        "type": "function",
+        "z": "0e5350d9d41d0f33",
+        "name": "function 41",
+        "func": "let Activacion1 = flow.get('Activacion1');\n\n\n// Verifica el valor de Activacion1 y Casa\nif (Activacion1 === 0) {\n    let Anterior4 = flow.get('Anterior4');\n    msg.payload = Anterior4;\n}\nelse {\n    return null;\n}\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 510,
+        "y": 1600,
+        "wires": [
+            [
+                "6129dc1425f73035"
+            ]
+        ]
+    },
+    {
+        "id": "bc19b27d9b6c0f39",
+        "type": "mqtt in",
+        "z": "0e5350d9d41d0f33",
+        "name": "",
+        "topic": "Sirena",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "9ee4d058209f2a27",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 250,
+        "y": 1520,
+        "wires": [
+            [
+                "6129dc1425f73035"
+            ]
+        ]
+    },
+    {
+        "id": "10b646d4f4f061e0",
+        "type": "ui_switch",
+        "z": "0e5350d9d41d0f33",
+        "name": "",
+        "label": "Luces (sirena luminosa)",
+        "tooltip": "",
+        "group": "dec52c40882cf09a",
+        "order": 2,
+        "width": 6,
+        "height": 1,
+        "passthru": false,
+        "decouple": "true",
+        "topic": "topic",
+        "topicType": "msg",
+        "style": "",
+        "onvalue": "1",
+        "onvalueType": "num",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "0",
+        "offvalueType": "num",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 550,
+        "y": 1360,
+        "wires": [
+            [
+                "cb89f405f1170c60",
+                "326b34f7a66e943c"
+            ]
+        ]
+    },
+    {
+        "id": "6129dc1425f73035",
+        "type": "ui_switch",
+        "z": "0e5350d9d41d0f33",
+        "name": "",
+        "label": "Sirena",
+        "tooltip": "",
+        "group": "dec52c40882cf09a",
+        "order": 5,
+        "width": 6,
+        "height": 1,
+        "passthru": false,
+        "decouple": "true",
+        "topic": "topic",
+        "topicType": "msg",
+        "style": "",
+        "onvalue": "1",
+        "onvalueType": "num",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "0",
+        "offvalueType": "num",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 510,
+        "y": 1520,
+        "wires": [
+            [
+                "96a98974f0d8f101",
+                "6697b7c2da984ef6"
+            ]
+        ]
+    },
+    {
+        "id": "b6318b0125dee00c",
+        "type": "ui_slider",
+        "z": "0e5350d9d41d0f33",
+        "name": "",
+        "label": "Velocidad",
+        "tooltip": "",
+        "group": "dec52c40882cf09a",
+        "order": 8,
+        "width": 6,
+        "height": 1,
+        "passthru": false,
+        "outs": "end",
+        "topic": "topic",
+        "topicType": "msg",
+        "min": 0,
+        "max": "100",
+        "step": "1",
+        "className": "",
+        "x": 580,
+        "y": 2320,
+        "wires": [
+            [
+                "2380e4a45ffc7948",
+                "895d438db1f3d6be"
+            ]
+        ]
+    },
+    {
+        "id": "fb4e1c8122bdad30",
+        "type": "ui_slider",
+        "z": "0e5350d9d41d0f33",
+        "name": "",
+        "label": "Camara",
+        "tooltip": "",
+        "group": "dec52c40882cf09a",
+        "order": 10,
+        "width": 6,
+        "height": 1,
+        "passthru": false,
+        "outs": "all",
+        "topic": "topic",
+        "topicType": "msg",
+        "min": "-1",
+        "max": "1",
+        "step": "0.1",
+        "className": "",
+        "x": 560,
+        "y": 3000,
+        "wires": [
+            [
+                "13ba9e4696af098b",
+                "1dd5449684fea5e7"
+            ]
+        ]
+    },
+    {
+        "id": "ba0e4e602355a3a7",
+        "type": "ui_dropdown",
+        "z": "0e5350d9d41d0f33",
+        "name": "",
+        "label": "",
+        "tooltip": "",
+        "place": "Modo de navegación",
+        "group": "dec52c40882cf09a",
+        "order": 4,
+        "width": 6,
+        "height": 1,
+        "passthru": false,
+        "multiple": false,
+        "options": [
+            {
+                "label": "Sin modo de navegación",
+                "value": "0",
+                "type": "str"
+            },
+            {
+                "label": "Navegación simple",
+                "value": "1",
+                "type": "str"
+            },
+            {
+                "label": "Crear mapa",
+                "value": 2,
+                "type": "num"
+            },
+            {
+                "label": "Navegación autónoma",
+                "value": "3",
+                "type": "str"
+            }
+        ],
+        "payload": "",
+        "topic": "topic",
+        "topicType": "msg",
+        "className": "Boton",
+        "x": 420,
+        "y": 2620,
+        "wires": [
+            [
+                "0ed7f324dc16e3cb",
+                "e29dfb27a2511959",
+                "6f42fc032dabd3f0"
+            ]
+        ]
+    },
+    {
+        "id": "7ddd2cc2b6161c68",
+        "type": "ui_toast",
+        "z": "0e5350d9d41d0f33",
+        "position": "top right",
+        "displayTime": "3",
+        "highlight": " ",
+        "sendall": true,
+        "outputs": 0,
+        "ok": "OK",
+        "cancel": "",
+        "raw": false,
+        "className": " ",
+        "topic": " ",
+        "name": "",
+        "x": 1590,
+        "y": 1480,
+        "wires": []
+    },
+    {
+        "id": "b93a84b801b6409f",
+        "type": "ui_toast",
+        "z": "0e5350d9d41d0f33",
+        "position": "top right",
+        "displayTime": "3",
+        "highlight": " ",
+        "sendall": true,
+        "outputs": 0,
+        "ok": "OK",
+        "cancel": "",
+        "raw": false,
+        "className": " ",
+        "topic": " ",
+        "name": "",
+        "x": 1430,
+        "y": 2180,
+        "wires": []
+    },
+    {
+        "id": "57c1665526994a78",
+        "type": "ui_template",
+        "z": "0e5350d9d41d0f33",
+        "group": "e986e682fae2fb85",
+        "name": "Switch Template",
+        "order": 1,
+        "width": 2,
+        "height": 2,
+        "format": "<!DOCTYPE html>\n<html lang=\"es\">\n\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Icono Font Awesome</title>\n    <!-- Incluye la biblioteca de Font Awesome -->\n    <link rel=\"stylesheet\" href=\"/css/all.min.css\">\n    <style>\n        .animate-icon {\n            transition: color 0.3s ease-in-out;\n        }\n\n        .animate-pulse {\n            animation: pulse 0.3s linear;\n        }\n\n        @keyframes pulse {\n            0% {\n                transform: scale(1);\n            }\n\n            50% {\n                transform: scale(1.1);\n            }\n\n            100% {\n                transform: scale(1);\n            }\n        }\n\n        .md-button {\n            display: flex;\n            justify-content: center;\n            align-items: center;\n            width: 100%;\n            height: 100%;\n            border-radius: 0;\n            background: none;\n            box-shadow: none;\n            cursor: pointer;\n        }\n\n        .icon-container {\n            display: flex;\n            justify-content: center;\n            align-items: center;\n            width: 100%;\n            height: 100%;\n        }\n\n        .icon {\n            font-size: 24px;\n            /* Tamaño base para otros íconos */\n            color: black;\n            /* Color base para otros íconos */\n        }\n\n        #home-icon {\n            font-size: 75px;\n            /* Tamaño específico ajustado para el ícono del botón */\n        }\n    </style>\n</head>\n\n<body>\n    <div style=\"text-align: center; height: 100%; display: flex; justify-content: center; align-items: center;\">\n        <md-button class=\"md-button\" ng-click=\"toggle()\">\n            <div class=\"icon-container\">\n                <i class=\"fa fa-home animate-icon icon\" id=\"home-icon\"\n                   ng-class=\"{ 'animate-pulse': animatePulse }\"\n                   style=\"color: {{ state ? 'red' : 'green' }}\" aria-hidden=\"true\"></i>\n            </div>\n        </md-button>\n    </div>\n\n    <script>\n        (function(scope) {\n            // Recuperar el último valor guardado en localStorage (si existe)\n            const savedState = localStorage.getItem('iconState');\n            scope.state = savedState !== null ? parseInt(savedState) : 0; // Usar el valor guardado o 0 por defecto\n            scope.animatePulse = false; // Flag para controlar la animación de pulso\n\n            // Observar mensajes entrantes para actualizar el estado del icono\n            scope.$watch('msg', function() {\n                if (scope.msg) {\n                    scope.state = parseInt(scope.msg.payload); // Actualizar estado basado en el payload entrante\n                    // Guardar el nuevo estado en localStorage\n                    localStorage.setItem('iconState', scope.state);\n                }\n            });\n\n            // Función para cambiar el estado y enviar el valor opuesto\n            scope.toggle = function() {\n                var newState = scope.state ? 0 : 1; // Determinar el nuevo estado\n                scope.animatePulse = true; // Activar la animación de pulso\n                setTimeout(function() {\n                    scope.animatePulse = false; // Desactivar la animación de pulso después de 0.3 segundos\n                    scope.$apply(); // Aplicar cambios para actualizar ng-class\n                }, 300);\n\n                scope.state = newState; // Actualizar el estado\n                // Guardar el nuevo estado en localStorage\n                localStorage.setItem('iconState', scope.state);\n                scope.send({payload: newState}); // Enviar el nuevo estado como payload\n            };\n\n            // Eliminamos la inicialización del estado del icono al cargar el contenido\n        })(scope);\n    </script>\n</body>\n\n</html>",
+        "storeOutMessages": false,
+        "fwdInMessages": false,
+        "resendOnRefresh": false,
+        "templateScope": "local",
+        "className": "Gris",
+        "x": 500,
+        "y": 1860,
+        "wires": [
+            [
+                "f8243c1e7f0f0269"
+            ]
+        ]
+    },
+    {
+        "id": "d7a6f2f9ea082ea7",
+        "type": "ui_template",
+        "z": "0e5350d9d41d0f33",
+        "group": "0b832ea2834e7f39",
+        "name": "",
+        "order": 1,
+        "width": 1,
+        "height": 1,
+        "format": "<!DOCTYPE html>\n<html lang=\"es\">\n\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>Icono Material Design</title>\n  <link rel=\"stylesheet\" href=\"https://fonts.googleapis.com/icon?family=Material+Icons\">\n  <style>\n    .animate-icon {\n      transition: color 0.3s ease-in-out;\n    }\n\n    .animate-pulse {\n      animation: pulse 0.3s linear;\n    }\n\n    @keyframes pulse {\n      0% {\n        transform: scale(1);\n      }\n\n      50% {\n        transform: scale(1.1);\n      }\n\n      100% {\n        transform: scale(1);\n      }\n    }\n\n    .md-button {\n      display: flex;\n      justify-content: center;\n      align-items: center;\n      width: 100%;\n      height: 100%;\n      border-radius: 0;\n      background: none;\n      box-shadow: none;\n      cursor: pointer;\n      transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out, background-color 0.3s ease-in-out;\n    }\n\n    .md-button.hidden {\n      opacity: 0;\n      visibility: hidden;\n    }\n\n    .md-button.with-background {\n      background-color: rgba(160, 163, 163, 0.5) !important;\n      border-radius: 1px !important;\n    }\n\n    .icon-container {\n      display: flex;\n      justify-content: center;\n      align-items: center;\n      width: 24px;\n      height: 24px;\n    }\n\n    .icon {\n      font-size: 24px;\n      color: black;\n    }\n  </style>\n</head>\n\n<body>\n  <div style=\"text-align: center; height: 100%; display: flex; justify-content: center; align-items: center;\">\n    <md-button class=\"md-button\" ng-click=\"toggle()\"\n      ng-class=\"{'hidden': isHidden, 'with-background': !isHidden && hasBackground}\">\n      <div class=\"icon-container\">\n        <span class=\"material-icons icon animate-icon\" id=\"router-icon\"\n                      ng-class=\"{ 'animate-pulse': animatePulse }\">\n                    router\n                </span>\n      </div>\n    </md-button>\n  </div>\n  <script>\n    // Asumiendo que scope está definido en un controlador AngularJS o similar\n    (function(scope) {\n      scope.state = 0;\n      scope.currentPayload = null;\n      scope.animatePulse = false;\n      scope.isHidden = true; // Inicialmente oculto\n      scope.hasBackground = false;\n\n      scope.$watch('msg', function(newValue) {\n        if (newValue && newValue.payload !== undefined) {\n          scope.currentPayload = newValue.payload;\n          scope.isHidden = (newValue.payload === 0);\n          scope.hasBackground = (newValue.payload === 1);\n          scope.$apply();\n        }\n      });\n\n      scope.toggle = function() {\n        if (scope.isHidden) {\n          return;\n        }\n        scope.animatePulse = true;\n        setTimeout(function() {\n          scope.animatePulse = false;\n          scope.$apply();\n        }, 300);\n\n        if (scope.currentPayload !== null) {\n          scope.send({payload: scope.currentPayload});\n        }\n      };\n\n    })(scope);\n  </script>\n</body>\n\n</html>",
+        "storeOutMessages": false,
+        "fwdInMessages": false,
+        "resendOnRefresh": false,
+        "templateScope": "local",
+        "className": "active-state",
+        "x": 1820,
+        "y": 2540,
+        "wires": [
+            [
+                "29bf473929984b41"
+            ]
+        ]
+    },
+    {
+        "id": "cd5f761ce56d3fa3",
+        "type": "ui_template",
+        "z": "0e5350d9d41d0f33",
+        "group": "0b832ea2834e7f39",
+        "name": "",
+        "order": 3,
+        "width": 1,
+        "height": 1,
+        "format": "<!DOCTYPE html>\n<html lang=\"es\">\n\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Icono Font Awesome</title>\n    <!-- Incluye la biblioteca de Font Awesome -->\n    <link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css\">\n    <style>\n        .animate-icon {\n            transition: color 0.3s ease-in-out;\n        }\n\n        .animate-pulse {\n            animation: pulse 0.3s linear;\n        }\n\n        @keyframes pulse {\n            0% {\n                transform: scale(1);\n            }\n\n            50% {\n                transform: scale(1.1);\n            }\n\n            100% {\n                transform: scale(1);\n            }\n        }\n\n        .md-button {\n            display: flex;\n            justify-content: center;\n            align-items: center;\n            width: 100%;\n            height: 100%;\n            border-radius: 0;\n            background: none;\n            box-shadow: none;\n            cursor: pointer;\n            transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out, background-color 0.3s ease-in-out;\n        }\n\n        .md-button.hidden {\n            opacity: 0;\n            visibility: hidden;\n        }\n\n        .md-button.with-background {\n            background-color: rgba(160, 163, 163, 0.5) !important;\n            border-radius: 1px !important;\n        }\n\n        .icon-container {\n            display: flex;\n            justify-content: center;\n            align-items: center;\n            width: 30px;\n            /* Ajusta el ancho del contenedor */\n            height: 30px;\n            /* Ajusta la altura del contenedor */\n            transform: scale(0.8);\n            /* Ajusta la escala al 80% */\n        }\n\n        .icon {\n            font-size: 30px;\n            /* Tamaño base del icono, puede ajustarse si es necesario */\n            color: black;\n        }\n    </style>\n</head>\n\n<body>\n    <div style=\"text-align: center; height: 100%; display: flex; justify-content: center; align-items: center;\">\n        <md-button class=\"md-button\" ng-click=\"toggle()\"\n            ng-class=\"{'hidden': isHidden, 'with-background': !isHidden && hasBackground}\">\n            <div class=\"icon-container\">\n                <i class=\"fas fa-home animate-icon icon\" id=\"sensor-icon\"\n                   ng-class=\"{ 'animate-pulse': animatePulse }\" aria-hidden=\"true\"></i>\n            </div>\n        </md-button>\n    </div>\n\n    <script>\n        (function(scope) {\n            scope.state = 0; // Estado inicial\n            scope.animatePulse = false; // Flag para controlar la animación de pulso\n            scope.isHidden = false; // Flag para controlar si el botón está oculto\n            scope.hasBackground = false; // Flag para controlar si el botón tiene fondo\n\n            // Observar mensajes entrantes para actualizar el estado del icono\n            scope.$watch('msg', function(newValue) {\n                if (newValue && newValue.payload !== undefined) {\n                    // Actualizar estado de visibilidad y fondo del botón\n                    scope.isHidden = (newValue.payload === 0);\n                    scope.hasBackground = (newValue.payload === 1);\n                    scope.$apply(); // Aplicar los cambios para actualizar la visibilidad y el fondo\n                }\n            });\n\n            // Función para cambiar el estado y enviar el valor opuesto\n            scope.toggle = function() {\n                if (scope.isHidden) {\n                    return; // No hacer nada si el botón está oculto\n                }\n\n                var newState = scope.state ? 0 : 1; // Determinar el nuevo estado\n                scope.animatePulse = true; // Activar la animación de pulso\n                setTimeout(function() {\n                    scope.animatePulse = false; // Desactivar la animación de pulso después de 0.3 segundos\n                    scope.$apply(); // Aplicar cambios para actualizar ng-class\n                }, 300);\n\n                scope.send({payload: newState}); // Enviar el nuevo estado como payload\n            };\n\n        })(scope);\n    </script>\n</body>\n\n</html>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "active-state",
+        "x": 1420,
+        "y": 2580,
+        "wires": [
+            [
+                "5b5ba012274e1f8e"
+            ]
+        ]
+    },
+    {
+        "id": "ce395e8e6ffc4a67",
+        "type": "ui_template",
+        "z": "0e5350d9d41d0f33",
+        "group": "0b832ea2834e7f39",
+        "name": "",
+        "order": 2,
+        "width": 1,
+        "height": 2,
+        "format": "<!DOCTYPE html>\n<html lang=\"es\">\n\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Widget Numérico</title>\n    <!-- Incluye la biblioteca de Material Icons -->\n    <link rel=\"stylesheet\" href=\"https://fonts.googleapis.com/icon?family=Material+Icons\">\n    <style>\n        .widget-container {\n            display: flex;\n            flex-direction: column;\n            align-items: center;\n            justify-content: center;\n            transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out, height 0.3s ease-in-out;\n        }\n\n        .hidden {\n            opacity: 0;\n            visibility: hidden;\n            height: 0;\n            width: 0;\n            overflow: hidden;\n            display: none;\n        }\n\n        .input-box {\n            width: 30px;\n            text-align: center;\n            font-size: 16px;\n            border: 1px solid #ccc;\n            margin-bottom: 5px;\n            padding: 2px;\n            pointer-events: none;\n            user-select: none;\n        }\n\n        .button {\n            border: none;\n            background-color: #007bff;\n            color: white;\n            font-size: 16px;\n            cursor: pointer;\n            width: 28px;\n            height: 28px;\n            padding: 0;\n            margin-bottom: 3px;\n            display: flex;\n            justify-content: center;\n            align-items: center;\n        }\n    </style>\n</head>\n\n<body>\n    <div id=\"numericWidget\" class=\"widget-container\">\n        <input type=\"text\" id=\"numberInput\" class=\"input-box\" value=\"1\" readonly>\n        <button type=\"button\" id=\"increase\" class=\"button\">\n            <span class=\"material-icons\">arrow_upward</span>\n        </button>\n        <button type=\"button\" id=\"decrease\" class=\"button\">\n            <span class=\"material-icons\">arrow_downward</span>\n        </button>\n    </div>\n\n    <script>\n        (function(scope) {\n            var widgetContainer = document.getElementById('numericWidget');\n            var numberInput = document.getElementById('numberInput');\n            var decreaseButton = document.getElementById('decrease');\n            var increaseButton = document.getElementById('increase');\n\n            // Función para actualizar el valor y enviar el mensaje\n            function updateValue(delta) {\n                var currentValue = parseFloat(numberInput.value) || 1; // Valor inicial 1\n                var newValue = currentValue + delta;\n                newValue = Math.max(1, Math.min(newValue, 9)); // Limitar el valor entre 1 y 9\n                numberInput.value = newValue;\n                \n                // Enviar el valor al flujo de Node-RED\n                scope.send({ payload: newValue });\n            }\n\n            // Agregar eventos a los botones\n            decreaseButton.addEventListener('click', function() {\n                updateValue(-1);\n            });\n\n            increaseButton.addEventListener('click', function() {\n                updateValue(1);\n            });\n\n            // Observar mensajes entrantes para actualizar el estado de visibilidad y el valor del widget\n            scope.$watch('msg', function(newValue) {\n                if (newValue && newValue.payload !== undefined) {\n                    if (newValue.payload === 0) {\n                        widgetContainer.classList.add('hidden');  // Hacer el widget completamente invisible\n                    } else {\n                        widgetContainer.classList.remove('hidden');  // Mostrar el widget\n                    }\n\n                    // Actualizar el valor del input si el payload es un número válido\n                    if (typeof newValue.payload === 'number' && newValue.payload >= 1 && newValue.payload <= 9) {\n                        numberInput.value = newValue.payload;\n                    }\n                }\n            });\n\n        })(scope);\n    </script>\n</body>\n\n</html>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "active-state",
+        "x": 1620,
+        "y": 2540,
+        "wires": [
+            [
+                "d7a6f2f9ea082ea7"
+            ]
+        ]
+    },
+    {
+        "id": "f8a9872cef7ff2b9",
+        "type": "mqtt in",
+        "z": "0e5350d9d41d0f33",
+        "name": "",
+        "topic": "Modo_Navegacion",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "9ee4d058209f2a27",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 190,
+        "y": 2640,
+        "wires": [
+            [
+                "ba0e4e602355a3a7"
+            ]
+        ]
+    },
+    {
+        "id": "77d0345a64635487",
+        "type": "mqtt in",
+        "z": "0e5350d9d41d0f33",
+        "name": "",
+        "topic": "Acople",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "9ee4d058209f2a27",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 890,
+        "y": 1740,
+        "wires": [
+            [
+                "63520cc3ca6892c4",
+                "f1a8a37b24e0a174"
+            ]
+        ]
+    },
+    {
+        "id": "f1a8a37b24e0a174",
+        "type": "function",
+        "z": "0e5350d9d41d0f33",
+        "name": "function 4",
+        "func": "// Recupera el valor desde el contexto del flujo\nlet Anterior = flow.get('Anterior');\n\n// Convierte a booleano (true o false)\nAnterior = (Anterior === 1);\n\n// Verifica si el valor de entrada es 0 o 1\nif (msg.payload === 1) {\n    // Si es 1, mantiene el valor de 'Anterior' como 1 o 0\n    flow.set('Casa', 1);\n    msg.payload = Anterior ? 1 : 0;\n} else if (msg.payload === 0) {\n    // Si es 0, envía lo contrario de 'Anterior' como 1 o 0\n    msg.payload = Anterior ? 0 : 1;\n    flow.set('Anterior', Anterior ? 0 : 1); // Guarda el valor invertido en 'Anterior'\n}\n\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1060,
+        "y": 1680,
+        "wires": [
+            [
+                "00fbb57b0d372e98",
+                "a678aacdb1ccf269",
+                "5a758cfb0afa7f42",
+                "8cbd5ee0ff3f6988",
+                "02fc708750d62c86"
+            ]
+        ]
+    },
+    {
+        "id": "02fc708750d62c86",
+        "type": "mqtt out",
+        "z": "0e5350d9d41d0f33",
+        "name": "",
+        "topic": "Lidar",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "9ee4d058209f2a27",
+        "x": 2030,
+        "y": 1760,
+        "wires": []
+    },
+    {
+        "id": "8ae4063a390833e8",
+        "type": "file",
+        "z": "0e5350d9d41d0f33",
+        "name": "",
+        "filename": "RobotExploradorDeEmergencias/src/Otros/video.avi",
+        "filenameType": "str",
+        "appendNewline": true,
+        "createDir": false,
+        "overwriteFile": "delete",
+        "encoding": "none",
+        "x": 2280,
+        "y": 2200,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "23860ad0fa1797af",
+        "type": "delay",
+        "z": "0e5350d9d41d0f33",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "0.2",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 1010,
+        "y": 2160,
+        "wires": [
+            [
+                "33d525646ca2416e"
+            ]
+        ]
+    },
+    {
+        "id": "4a2788ceea4aa319",
+        "type": "function",
+        "z": "0e5350d9d41d0f33",
+        "name": "function 5",
+        "func": "msg.payload = \"3.mp3\";\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1100,
+        "y": 2080,
+        "wires": [
+            [
+                "0507b7f1a67fa596"
+            ]
+        ]
+    },
+    {
+        "id": "befe492e4e65f02c",
+        "type": "file",
+        "z": "0e5350d9d41d0f33",
+        "name": "",
+        "filename": "filename",
+        "filenameType": "msg",
+        "appendNewline": true,
+        "createDir": true,
+        "overwriteFile": "false",
+        "encoding": "none",
+        "x": 2920,
+        "y": 1760,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "3c49f81d81fd25fb",
+        "type": "file",
+        "z": "0e5350d9d41d0f33",
+        "name": "",
+        "filename": "filename",
+        "filenameType": "msg",
+        "appendNewline": true,
+        "createDir": true,
+        "overwriteFile": "false",
+        "encoding": "none",
+        "x": 2900,
+        "y": 1800,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "384047c058c19845",
+        "type": "mqtt in",
+        "z": "0e5350d9d41d0f33",
+        "name": "",
+        "topic": "Temperatura",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "9ee4d058209f2a27",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 3330,
+        "y": 1300,
+        "wires": [
+            [
+                "2ef8218e0e535bca",
+                "6aa3b8d4f910e251"
+            ]
+        ]
+    },
+    {
+        "id": "aed6b8259ae8920d",
+        "type": "mqtt in",
+        "z": "0e5350d9d41d0f33",
+        "name": "",
+        "topic": "Humedad",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "9ee4d058209f2a27",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 3320,
+        "y": 1040,
+        "wires": [
+            [
+                "36d3b9e74fc3180d",
+                "440cac5a1fc04288"
+            ]
+        ]
+    },
+    {
+        "id": "2ef8218e0e535bca",
+        "type": "function",
+        "z": "0e5350d9d41d0f33",
+        "name": "Format Temperature",
+        "func": "msg.payload = msg.payload + '°C';\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 3820,
+        "y": 1300,
+        "wires": [
+            [
+                "e4563bf4339599b0"
+            ]
+        ]
+    },
+    {
+        "id": "36d3b9e74fc3180d",
+        "type": "function",
+        "z": "0e5350d9d41d0f33",
+        "name": "Format Temperature",
+        "func": "msg.payload = msg.payload + '%';\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 3800,
+        "y": 1000,
+        "wires": [
+            [
+                "d592e5b766a01bbc"
+            ]
+        ]
+    },
+    {
+        "id": "523a644170907f55",
+        "type": "mqtt out",
+        "z": "0e5350d9d41d0f33",
+        "name": "",
+        "topic": "Velocidad",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "9ee4d058209f2a27",
+        "x": 4620,
+        "y": 2440,
+        "wires": []
+    },
+    {
+        "id": "e6a0f26644bdf0a4",
+        "type": "function",
+        "z": "0e5350d9d41d0f33",
+        "name": "function 64",
+        "func": "const numerosEnPalabras = {\n    \"cero\": 0,\n    \"uno\": 1,\n    \"dos\": 2,\n    \"tres\": 3,\n    \"cuatro\": 4,\n    \"cinco\": 5,\n    \"seis\": 6,\n    \"siete\": 7,\n    \"ocho\": 8,\n    \"nueve\": 9,\n    \"diez\": 10,\n    \"once\": 11,\n    \"doce\": 12,\n    \"trece\": 13,\n    \"catorce\": 14,\n    \"quince\": 15,\n    \"dieciséis\": 16,\n    \"diecisiete\": 17,\n    \"dieciocho\": 18,\n    \"diecinueve\": 19,\n    \"veinte\": 20,\n    \"veintiuno\": 21,\n    \"veintidós\": 22,\n    \"veintitrés\": 23,\n    \"veinticuatro\": 24,\n    \"veinticinco\": 25,\n    \"veintiséis\": 26,\n    \"veintisiete\": 27,\n    \"veintiocho\": 28,\n    \"veintinueve\": 29,\n    \"treinta\": 30,\n    \"treinta y uno\": 31,\n    \"treinta y dos\": 32,\n    \"treinta y tres\": 33,\n    \"treinta y cuatro\": 34,\n    \"treinta y cinco\": 35,\n    \"treinta y seis\": 36,\n    \"treinta y siete\": 37,\n    \"treinta y ocho\": 38,\n    \"treinta y nueve\": 39,\n    \"cuarenta\": 40,\n    \"cuarenta y uno\": 41,\n    \"cuarenta y dos\": 42,\n    \"cuarenta y tres\": 43,\n    \"cuarenta y cuatro\": 44,\n    \"cuarenta y cinco\": 45,\n    \"cuarenta y seis\": 46,\n    \"cuarenta y siete\": 47,\n    \"cuarenta y ocho\": 48,\n    \"cuarenta y nueve\": 49,\n    \"cincuenta\": 50,\n    \"cincuenta y uno\": 51,\n    \"cincuenta y dos\": 52,\n    \"cincuenta y tres\": 53,\n    \"cincuenta y cuatro\": 54,\n    \"cincuenta y cinco\": 55,\n    \"cincuenta y seis\": 56,\n    \"cincuenta y siete\": 57,\n    \"cincuenta y ocho\": 58,\n    \"cincuenta y nueve\": 59,\n    \"sesenta\": 60,\n    \"sesenta y uno\": 61,\n    \"sesenta y dos\": 62,\n    \"sesenta y tres\": 63,\n    \"sesenta y cuatro\": 64,\n    \"sesenta y cinco\": 65,\n    \"sesenta y seis\": 66,\n    \"sesenta y siete\": 67,\n    \"sesenta y ocho\": 68,\n    \"sesenta y nueve\": 69,\n    \"setenta\": 70,\n    \"setenta y uno\": 71,\n    \"setenta y dos\": 72,\n    \"setenta y tres\": 73,\n    \"setenta y cuatro\": 74,\n    \"setenta y cinco\": 75,\n    \"setenta y seis\": 76,\n    \"setenta y siete\": 77,\n    \"setenta y ocho\": 78,\n    \"setenta y nueve\": 79,\n    \"ochenta\": 80,\n    \"ochenta y uno\": 81,\n    \"ochenta y dos\": 82,\n    \"ochenta y tres\": 83,\n    \"ochenta y cuatro\": 84,\n    \"ochenta y cinco\": 85,\n    \"ochenta y seis\": 86,\n    \"ochenta y siete\": 87,\n    \"ochenta y ocho\": 88,\n    \"ochenta y nueve\": 89,\n    \"noventa\": 90,\n    \"noventa y uno\": 91,\n    \"noventa y dos\": 92,\n    \"noventa y tres\": 93,\n    \"noventa y cuatro\": 94,\n    \"noventa y cinco\": 95,\n    \"noventa y seis\": 96,\n    \"noventa y siete\": 97,\n    \"noventa y ocho\": 98,\n    \"noventa y nueve\": 99,\n    \"cien\": 100\n};\n\n// Función para procesar el mensaje recibido\nfunction procesarMensaje(msg) {\n    // Verificar si el mensaje contiene la palabra \"velocidad\"\n    if (msg.payload.includes(\"velocidad\")) {\n        // Dividir el mensaje por espacios para obtener las partes individuales\n        var partes = msg.payload.split(\" \");\n        var numero = null;  // Inicializar variable\n\n        // Buscar el número después de \"velocidad\"\n        for (var i = 0; i < partes.length; i++) {\n            // Verificar si la parte actual es un número entre 0 y 100 (en pasos de 1)\n            if (partes[i].match(/^\\d+%?$/)) {\n                numero = parseInt(partes[i].replace(\"%\", \"\"));\n                if (numero >= 0 && numero <= 100) {\n                    msg.payload = numero;\n                    return msg;\n                }\n            }\n            // Verificar si la parte es una palabra numérica en pasos de 1\n            else if (numerosEnPalabras.hasOwnProperty(partes[i])) {\n                numero = numerosEnPalabras[partes[i]];\n                msg.payload = numero;\n                return msg;\n            }\n        }\n    }\n    return null; // Si no se encuentra un número válido, devolver null\n}\n\n// Llamar a la función con el mensaje actual\nreturn procesarMensaje(msg);\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 3870,
+        "y": 2420,
+        "wires": [
+            [
+                "1ffae5bd526a31f9",
+                "1fed8d7596377286"
+            ]
+        ]
+    },
+    {
+        "id": "1fed8d7596377286",
+        "type": "function",
+        "z": "0e5350d9d41d0f33",
+        "name": "function 61",
+        "func": "// Verifica si msg.payload contiene un número válido\nif (typeof msg.payload === 'number') {\n    let numero = msg.payload;\n    msg.payload = \"Velocidad al \" + numero + \"%\";\n} else {\n    msg.payload = \"Entrada no válida. Se esperaba un número.\";\n}\n\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 4130,
+        "y": 2380,
+        "wires": [
+            [
+                "083e1ea56df2b2e1",
+                "96595f4f98ddccf0"
+            ]
+        ]
+    },
+    {
+        "id": "1ffae5bd526a31f9",
+        "type": "function",
+        "z": "0e5350d9d41d0f33",
+        "name": "function 60",
+        "func": "msg.payload = (msg.payload * 1.1) / 100;\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 4130,
+        "y": 2440,
+        "wires": [
+            [
+                "523a644170907f55"
+            ]
+        ]
+    },
+    {
+        "id": "abb4f27f52a19d18",
+        "type": "function",
+        "z": "0e5350d9d41d0f33",
+        "name": "function 65",
+        "func": "function procesarMensaje(msg) {\n    // Convertir el mensaje a minúsculas para hacer la comparación insensible a mayúsculas/minúsculas\n    let mensaje = msg.payload.toLowerCase().trim();\n\n    mensaje = mensaje.replace(/luz/g, \"luc\");\n\n    // Verificar si el mensaje contiene las palabras clave correspondientes y establecer el valor\n    if (mensaje.includes(\"luc\") && (mensaje.includes(\"encendidas\") || mensaje.includes(\"activa\") || mensaje.includes(\"conec\"))) {\n        msg.payload = 1;\n        return msg;\n    } else if (mensaje.includes(\"luc\") && (mensaje.includes(\"apag\") || mensaje.includes(\"desacti\") || mensaje.includes(\"desconec\"))) {\n        msg.payload = 0;\n        return msg;\n    }\n\n    // Si no se encontró ninguna coincidencia\n    return null;\n}\n\n// Llamar a la función y devolver el resultado\nreturn procesarMensaje(msg);\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 3870,
+        "y": 2080,
+        "wires": [
+            [
+                "b80ff3c6d2002dea",
+                "1ad79ef42a3c5e71"
+            ]
+        ]
+    },
+    {
+        "id": "b80ff3c6d2002dea",
+        "type": "function",
+        "z": "0e5350d9d41d0f33",
+        "name": "function 66",
+        "func": "// Obtenemos el payload del mensaje\nlet payload = msg.payload;\n\n// Verificamos el valor del payload\nif (payload === 1) {\n    msg.payload = \"Luces encendidas\";\n} else if (payload === 0) {\n    msg.payload = \"Luces apagadas\";\n} \n// Devolvemos el mensaje modificado\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 4090,
+        "y": 2260,
+        "wires": [
+            [
+                "083e1ea56df2b2e1",
+                "96595f4f98ddccf0"
+            ]
+        ]
+    },
+    {
+        "id": "1ad79ef42a3c5e71",
+        "type": "mqtt out",
+        "z": "0e5350d9d41d0f33",
+        "name": "",
+        "topic": "Activacion/LED",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "9ee4d058209f2a27",
+        "x": 4280,
+        "y": 2080,
+        "wires": []
+    },
+    {
+        "id": "1665d2aad5f0e6d7",
+        "type": "function",
+        "z": "0e5350d9d41d0f33",
+        "name": "function 71",
+        "func": "// Función para procesar los mensajes de texto y devolver 1 o 0\nfunction procesarMensaje(msg) {\n    // Convertir el mensaje a minúsculas para hacer la comparación insensible a mayúsculas/minúsculas\n    let mensaje = msg.payload.toLowerCase().trim();\n\n    // Verificar si el mensaje contiene alguna de las opciones para activar la sirena\n    if (mensaje.includes(\"sire\") &&\n        (mensaje.includes(\"encen\") ||\n            mensaje.includes(\"act\") ||\n            mensaje.includes(\"conec\"))) {\n        msg.payload = 1;\n        return msg;\n    }\n    // Verificar si el mensaje contiene alguna de las opciones para apagar la sirena\n    else if (mensaje.includes(\"sire\") &&\n        (mensaje.includes(\"apa\") ||\n            mensaje.includes(\"des\"))) {\n        msg.payload = 0;\n        return msg;\n    }\n\n    // Si no se encontró ninguna coincidencia\n    return null;\n}\n\n// Llamar a la función y devolver el resultado\nreturn procesarMensaje(msg);\n\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 3830,
+        "y": 2600,
+        "wires": [
+            [
+                "9860850d17b86d7f",
+                "33907fcade473904"
+            ]
+        ]
+    },
+    {
+        "id": "3236bb8ddfb8c745",
+        "type": "function",
+        "z": "0e5350d9d41d0f33",
+        "name": "function 72",
+        "func": "// Recupera el valor desde el contexto del flujo\nlet Activacion1 = flow.get('Activacion1');\n\n\n// Verifica el valor de Activacion1 y Casa\nif (Activacion1 === 1 ) {\n   return msg; \n\n}\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 3590,
+        "y": 2220,
+        "wires": [
+            [
+                "e6a0f26644bdf0a4",
+                "abb4f27f52a19d18",
+                "1665d2aad5f0e6d7",
+                "10fb4bf38a7753cb",
+                "c8afbd0fe11e2bb4"
+            ]
+        ]
+    },
+    {
+        "id": "9860850d17b86d7f",
+        "type": "function",
+        "z": "0e5350d9d41d0f33",
+        "name": "function 74",
+        "func": "// Obtenemos el payload del mensaje\nlet payload = msg.payload;\n\n// Verificamos el valor del payload\nif (payload === 1) {\n    msg.payload = \"Sirena encendida\";\n} else if (payload === 0) {\n    msg.payload = \"Sirena apagada\";\n} \n// Devolvemos el mensaje modificado\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 4090,
+        "y": 2540,
+        "wires": [
+            [
+                "083e1ea56df2b2e1",
+                "96595f4f98ddccf0"
+            ]
+        ]
+    },
+    {
+        "id": "33907fcade473904",
+        "type": "mqtt out",
+        "z": "0e5350d9d41d0f33",
+        "name": "",
+        "topic": "Sirena",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "9ee4d058209f2a27",
+        "x": 4610,
+        "y": 2600,
+        "wires": []
+    },
+    {
+        "id": "69a38f95911287d4",
+        "type": "mqtt in",
+        "z": "0e5350d9d41d0f33",
+        "name": "",
+        "topic": "TVOC",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "9ee4d058209f2a27",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 3310,
+        "y": 1180,
+        "wires": [
+            [
+                "ffda7722cd7d8699",
+                "1174f5982f64d6ea"
+            ]
+        ]
+    },
+    {
+        "id": "ffda7722cd7d8699",
+        "type": "function",
+        "z": "0e5350d9d41d0f33",
+        "name": "Format Temperature",
+        "func": "msg.payload = msg.payload + 'ppb';\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 3820,
+        "y": 1140,
+        "wires": [
+            [
+                "40c97bc108642344"
+            ]
+        ]
+    },
+    {
+        "id": "10fb4bf38a7753cb",
+        "type": "function",
+        "z": "0e5350d9d41d0f33",
+        "name": "function 88",
+        "func": "function procesarMensaje(msg) {\n    // Convertir el mensaje a minúsculas para hacer la comparación insensible a mayúsculas/minúsculas\n    let mensaje = msg.payload.toLowerCase().trim();\n\n\n    // Verificar si el mensaje contiene alguna de las opciones para subir la cámara\n    if ((mensaje.includes(\"cáma\") || mensaje.includes(\"cama\" ))&&\n        (mensaje.includes(\"arri\") ||\n            mensaje.includes(\"sub\") ||\n            mensaje.includes(\"tope\") ||\n            mensaje.includes(\"máximo\"))) {\n        msg.payload = -1;\n        return msg;\n    }\n    // Verificar si el mensaje contiene alguna de las opciones para bajar la cámara\n    else if ((mensaje.includes(\"cáma\") || mensaje.includes(\"cama\")) &&\n        (mensaje.includes(\"abajo\") ||\n            mensaje.includes(\"míni\") ||\n            mensaje.includes(\"baja\"))) {\n        msg.payload = 1;\n        return msg;\n    }\n    // Verificar si el mensaje contiene alguna de las opciones para centrar la cámara\n    else if ((mensaje.includes(\"cáma\") || mensaje.includes(\"cama\")) &&\n        (mensaje.includes(\"cent\") ||\n            mensaje.includes(\"medio\"))) {\n        msg.payload = 0.4;\n        return msg;\n    }\n\n    // Si no se encontró ninguna coincidencia\n    return null;\n}\n\n// Llamar a la función y devolver el resultado\nreturn procesarMensaje(msg);\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 3870,
+        "y": 1980,
+        "wires": [
+            [
+                "308ab6ae881ff35f",
+                "0abc9b1b77d387cf"
+            ]
+        ]
+    },
+    {
+        "id": "308ab6ae881ff35f",
+        "type": "mqtt out",
+        "z": "0e5350d9d41d0f33",
+        "name": "",
+        "topic": "Servo",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "9ee4d058209f2a27",
+        "x": 4250,
+        "y": 1980,
+        "wires": []
+    },
+    {
+        "id": "0abc9b1b77d387cf",
+        "type": "function",
+        "z": "0e5350d9d41d0f33",
+        "name": "function 89",
+        "func": "// Obtenemos el payload del mensaje\nlet payload = msg.payload;\n\n// Verificamos el valor del payload\nif (payload === 1) {\n    msg.payload = \"Cámara mirando para abajo\";\n} else if (payload === -1) {\n    msg.payload = \"Cámara mirando para arriba\";\n} else if (payload === 0.4) {\n    msg.payload = \"Cámara centrada\";\n} \n// Devolvemos el mensaje modificado\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 4110,
+        "y": 2180,
+        "wires": [
+            [
+                "083e1ea56df2b2e1",
+                "96595f4f98ddccf0"
+            ]
+        ]
+    },
+    {
+        "id": "230f56b51fdb75c9",
+        "type": "mqtt out",
+        "z": "0e5350d9d41d0f33",
+        "name": "",
+        "topic": "Archivo",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "9ee4d058209f2a27",
+        "x": 4220,
+        "y": 680,
+        "wires": []
+    },
+    {
+        "id": "59717dc5781a6a11",
+        "type": "mqtt in",
+        "z": "0e5350d9d41d0f33",
+        "name": "",
+        "topic": "Archivo",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "9ee4d058209f2a27",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 3290,
+        "y": 680,
+        "wires": [
+            [
+                "4cbeac0398350519"
+            ]
+        ]
+    },
+    {
+        "id": "4cbeac0398350519",
+        "type": "function",
+        "z": "0e5350d9d41d0f33",
+        "name": "function 97",
+        "func": "// Suponiendo que el mensaje entrante tiene un campo msg.payload\nlet originalMessage = msg.payload;\n\n// Si el payload ya es un string, simplemente añadimos la extensión .yaml\nif (typeof originalMessage === 'string') {\n    msg.payload = originalMessage + \".yaml\";\n} else {\n    // Si el payload no es un string, lo convertimos a string y luego añadimos la extensión\n    msg.payload = JSON.stringify(originalMessage) + \".yaml\";\n}\n\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 3490,
+        "y": 680,
+        "wires": [
+            [
+                "7ce55c23f759481f"
+            ]
+        ]
+    },
+    {
+        "id": "9c1e3292f9195308",
+        "type": "function",
+        "z": "0e5350d9d41d0f33",
+        "name": "function 108",
+        "func": "let Activacion1 = flow.get('Activacion1');\nlet Archivo = flow.get('Archivo');\nlet Modo = flow.get('Modo');\n\n// Verifica si alguno de los valores es igual a 0 o si Modo es igual a 1\nif (Activacion1 == 0 || Archivo == 0 || Modo == 0 || Modo == 1) {\n    let Anterior7 = flow.get('Anterior7');\n    msg.payload = Anterior7;  // Asigna el valor de Anterior7 a msg.payload\n} else {\n    return null;  // No se envía ningún mensaje si ninguna condición se cumple\n}\n\nreturn msg;  // Devuelve el mensaje si alguna de las condiciones es verdadera\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 3730,
+        "y": 760,
+        "wires": [
+            [
+                "7ce55c23f759481f"
+            ]
+        ]
+    },
+    {
+        "id": "06839fc6255b0ebc",
+        "type": "function",
+        "z": "0e5350d9d41d0f33",
+        "name": "function 109",
+        "func": "let Archivo = 0;\nflow.set('Archivo', Archivo);\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 4230,
+        "y": 740,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "3e186b6ca601790d",
+        "type": "function",
+        "z": "0e5350d9d41d0f33",
+        "name": "function 118",
+        "func": "\n// Recupera el valor desde el contexto del flujo\nlet Activacion1 = flow.get('Activacion1');\nlet Archivo = flow.get('Archivo');\nlet Modo = flow.get('Modo');\n\n// Verifica el valor de Activacion1, Archivo, y Modo, y ajusta msg.payload si es necesario\nif (Activacion1 == 1 && Archivo == 1 && (Modo !== 0 && Modo !== 1)) {\n    let Anterior7 = msg.payload;\n    // Concatenar \".yaml\" a Anterior7 y almacenarlo en el flujo\n    flow.set('Anterior7', Anterior7 + \".yaml\");\n} else {\n    return null;  // Si no se cumple la condición, no envía ningún mensaje\n}\n\nreturn msg;  // Devuelve el mensaje original, sin cambios\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 3990,
+        "y": 680,
+        "wires": [
+            [
+                "230f56b51fdb75c9",
+                "06839fc6255b0ebc",
+                "3783f0181a2c4048"
+            ]
+        ]
+    },
+    {
+        "id": "d2236585404d45db",
+        "type": "function",
+        "z": "0e5350d9d41d0f33",
+        "name": "function 136",
+        "func": "msg.payload = \"\";\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 3550,
+        "y": 600,
+        "wires": [
+            [
+                "7ce55c23f759481f"
+            ]
+        ]
+    },
+    {
+        "id": "cb07b295941ae9d4",
+        "type": "link in",
+        "z": "0e5350d9d41d0f33",
+        "name": "link in 2",
+        "links": [
+            "727d47b64c6b3b7e",
+            "6f42fc032dabd3f0",
+            "86d0a2480d2b98e9"
+        ],
+        "x": 3385,
+        "y": 600,
+        "wires": [
+            [
+                "d2236585404d45db"
+            ]
+        ]
+    },
+    {
+        "id": "ad3f1b7c978128ad",
+        "type": "function",
+        "z": "0e5350d9d41d0f33",
+        "name": "function 140",
+        "func": "// Función para procesar los mensajes de texto y devolver 1 o 0\nfunction procesarMensaje(msg) {\n    // Convertir el mensaje a minúsculas para hacer la comparación insensible a mayúsculas/minúsculas\n    let mensaje = msg.payload.toLowerCase().trim();\n\n    // Verificar si el mensaje contiene la palabra \"casa\" y cualquiera de las palabras \"volver\" o \"ir\"\n    if (((mensaje.includes(\"casa\") || mensaje.includes(\"estaci\"))&& (mensaje.includes(\"vol\") || mensaje.includes(\"ir\")))) {\n        msg.payload = 1;\n        return msg;\n    }\n\n    // Si no se encontró ninguna coincidencia\n    return null;\n}\n\n// Llamar a la función y devolver el resultado\nreturn procesarMensaje(msg);\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 4050,
+        "y": 2680,
+        "wires": [
+            [
+                "dc7325fc98075852",
+                "4bd0c6976fb2cbeb"
+            ]
+        ]
+    },
+    {
+        "id": "c8afbd0fe11e2bb4",
+        "type": "function",
+        "z": "0e5350d9d41d0f33",
+        "name": "function 142",
+        "func": "let NavegacionAutonoma = flow.get('NavegacionAutonoma');\n// Verifica el valor recibido en el payload\nif (NavegacionAutonoma === 1) {\n    return msg;\n} else {\n    return null;\n}\n\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 3830,
+        "y": 2680,
+        "wires": [
+            [
+                "ad3f1b7c978128ad",
+                "c1342399ba0e6517"
+            ]
+        ]
+    },
+    {
+        "id": "dc7325fc98075852",
+        "type": "mqtt out",
+        "z": "0e5350d9d41d0f33",
+        "name": "",
+        "topic": "Ir_casa",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "9ee4d058209f2a27",
+        "x": 4620,
+        "y": 2680,
+        "wires": []
+    },
+    {
+        "id": "4bd0c6976fb2cbeb",
+        "type": "function",
+        "z": "0e5350d9d41d0f33",
+        "name": "function 143",
+        "func": "msg.payload = \"Volviendo a la estacion de carga\";\n\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 4250,
+        "y": 2560,
+        "wires": [
+            [
+                "083e1ea56df2b2e1",
+                "96595f4f98ddccf0"
+            ]
+        ]
+    },
+    {
+        "id": "c1342399ba0e6517",
+        "type": "function",
+        "z": "0e5350d9d41d0f33",
+        "name": "function 144",
+        "func": "const numerosEnPalabras = {\n    \"cero\": 0,\n    \"uno\": 1,\n    \"dos\": 2,\n    \"tres\": 3,\n    \"cuatro\": 4,\n    \"cinco\": 5,\n    \"seis\": 6,\n    \"siete\": 7,\n    \"ocho\": 8,\n    \"nueve\": 9,\n    \"diez\": 10,\n    \"once\": 11,\n    \"doce\": 12,\n    \"trece\": 13,\n    \"catorce\": 14,\n    \"quince\": 15,\n    \"dieciséis\": 16,\n    \"diecisiete\": 17,\n    \"dieciocho\": 18,\n    \"diecinueve\": 19,\n    \"veinte\": 20,\n    \"veintiuno\": 21,\n    \"veintidós\": 22,\n    \"veintitrés\": 23,\n    \"veinticuatro\": 24,\n    \"veinticinco\": 25,\n    \"veintiséis\": 26,\n    \"veintisiete\": 27,\n    \"veintiocho\": 28,\n    \"veintinueve\": 29,\n    \"treinta\": 30,\n    \"treinta y uno\": 31,\n    \"treinta y dos\": 32,\n    \"treinta y tres\": 33,\n    \"treinta y cuatro\": 34,\n    \"treinta y cinco\": 35,\n    \"treinta y seis\": 36,\n    \"treinta y siete\": 37,\n    \"treinta y ocho\": 38,\n    \"treinta y nueve\": 39,\n    \"cuarenta\": 40,\n    \"cuarenta y uno\": 41,\n    \"cuarenta y dos\": 42,\n    \"cuarenta y tres\": 43,\n    \"cuarenta y cuatro\": 44,\n    \"cuarenta y cinco\": 45,\n    \"cuarenta y seis\": 46,\n    \"cuarenta y siete\": 47,\n    \"cuarenta y ocho\": 48,\n    \"cuarenta y nueve\": 49,\n    \"cincuenta\": 50,\n    \"cincuenta y uno\": 51,\n    \"cincuenta y dos\": 52,\n    \"cincuenta y tres\": 53,\n    \"cincuenta y cuatro\": 54,\n    \"cincuenta y cinco\": 55,\n    \"cincuenta y seis\": 56,\n    \"cincuenta y siete\": 57,\n    \"cincuenta y ocho\": 58,\n    \"cincuenta y nueve\": 59,\n    \"sesenta\": 60,\n    \"sesenta y uno\": 61,\n    \"sesenta y dos\": 62,\n    \"sesenta y tres\": 63,\n    \"sesenta y cuatro\": 64,\n    \"sesenta y cinco\": 65,\n    \"sesenta y seis\": 66,\n    \"sesenta y siete\": 67,\n    \"sesenta y ocho\": 68,\n    \"sesenta y nueve\": 69,\n    \"setenta\": 70,\n    \"setenta y uno\": 71,\n    \"setenta y dos\": 72,\n    \"setenta y tres\": 73,\n    \"setenta y cuatro\": 74,\n    \"setenta y cinco\": 75,\n    \"setenta y seis\": 76,\n    \"setenta y siete\": 77,\n    \"setenta y ocho\": 78,\n    \"setenta y nueve\": 79,\n    \"ochenta\": 80,\n    \"ochenta y uno\": 81,\n    \"ochenta y dos\": 82,\n    \"ochenta y tres\": 83,\n    \"ochenta y cuatro\": 84,\n    \"ochenta y cinco\": 85,\n    \"ochenta y seis\": 86,\n    \"ochenta y siete\": 87,\n    \"ochenta y ocho\": 88,\n    \"ochenta y nueve\": 89,\n    \"noventa\": 90,\n    \"noventa y uno\": 91,\n    \"noventa y dos\": 92,\n    \"noventa y tres\": 93,\n    \"noventa y cuatro\": 94,\n    \"noventa y cinco\": 95,\n    \"noventa y seis\": 96,\n    \"noventa y siete\": 97,\n    \"noventa y ocho\": 98,\n    \"noventa y nueve\": 99,\n    \"cien\": 100\n};\n\n// Función para procesar el mensaje recibido\nfunction procesarMensaje(msg) {\n    // Verificar si el mensaje contiene la palabra \"velocidad\"\n    if (msg.payload.includes(\"bal\")) {\n        // Dividir el mensaje por espacios para obtener las partes individuales\n        var partes = msg.payload.split(\" \");\n        var numero = null;  // Inicializar variable\n\n        // Buscar el número después de \"velocidad\"\n        for (var i = 0; i < partes.length; i++) {\n            // Verificar si la parte actual es un número entre 0 y 100 (en pasos de 1)\n            if (partes[i].match(/^\\d+%?$/)) {\n                numero = parseInt(partes[i].replace(\"%\", \"\"));\n                if (numero >= 0 && numero <= 100) {\n                    msg.payload = numero;\n                    return msg;\n                }\n            }\n            // Verificar si la parte es una palabra numérica en pasos de 1\n            else if (numerosEnPalabras.hasOwnProperty(partes[i])) {\n                numero = numerosEnPalabras[partes[i]];\n                msg.payload = numero;\n                return msg;\n            }\n        }\n    }\n    return null; // Si no se encuentra un número válido, devolver null\n}\n\n// Llamar a la función con el mensaje actual\nreturn procesarMensaje(msg);\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 4070,
+        "y": 2740,
+        "wires": [
+            [
+                "ae9037e8fbecbd51",
+                "a934e29088761916"
+            ]
+        ]
+    },
+    {
+        "id": "ae9037e8fbecbd51",
+        "type": "mqtt out",
+        "z": "0e5350d9d41d0f33",
+        "name": "",
+        "topic": "Ir_baliza",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "9ee4d058209f2a27",
+        "x": 4620,
+        "y": 2800,
+        "wires": []
+    },
+    {
+        "id": "a934e29088761916",
+        "type": "function",
+        "z": "0e5350d9d41d0f33",
+        "name": "function 145",
+        "func": "let numero = msg.payload;\nmsg.payload = \"Yendo a la baliza \" + numero;\n\n\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 4350,
+        "y": 2720,
+        "wires": [
+            [
+                "083e1ea56df2b2e1",
+                "96595f4f98ddccf0"
+            ]
+        ]
+    },
+    {
+        "id": "374ef4272cbfb8e6",
+        "type": "file",
+        "z": "0e5350d9d41d0f33",
+        "name": "",
+        "filename": "filename",
+        "filenameType": "msg",
+        "appendNewline": true,
+        "createDir": true,
+        "overwriteFile": "false",
+        "encoding": "none",
+        "x": 4720,
+        "y": 440,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "94fc5c9012addfc4",
+        "type": "file in",
+        "z": "0e5350d9d41d0f33",
+        "name": "",
+        "filename": "RobotExploradorDeEmergencias/src/Otros/Sensores.csv",
+        "filenameType": "str",
+        "format": "stream",
+        "chunk": false,
+        "sendError": false,
+        "encoding": "none",
+        "allProps": true,
+        "x": 4170,
+        "y": 440,
+        "wires": [
+            [
+                "b6787f13b3ff831f"
+            ]
+        ]
+    },
+    {
+        "id": "7e07b8ed5246a26d",
+        "type": "function",
+        "z": "0e5350d9d41d0f33",
+        "name": "function 148",
+        "func": "let Nombre = msg.payload;\nflow.set('Nombre', Nombre);\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 4030,
+        "y": 220,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "99f5422561d57b56",
+        "type": "function",
+        "z": "0e5350d9d41d0f33",
+        "name": "function 150",
+        "func": "msg.payload = msg.payload + \".csv     \" +msg.payload + \".avi\"\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 3690,
+        "y": 440,
+        "wires": [
+            [
+                "ab17e26379c9aaaa"
+            ]
+        ]
+    },
+    {
+        "id": "2f1c47a9f0217516",
+        "type": "inject",
+        "z": "0e5350d9d41d0f33",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "1",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "true",
+        "payloadType": "bool",
+        "x": 3250,
+        "y": 1540,
+        "wires": [
+            [
+                "2c6d31329688f072",
+                "512c5698b6cb4afc"
+            ]
+        ]
+    },
+    {
+        "id": "6aa3b8d4f910e251",
+        "type": "function",
+        "z": "0e5350d9d41d0f33",
+        "name": "function 151",
+        "func": "// Obtener el valor de temperatura\nlet Sensor_Temperatura = msg.payload;\n\n// Guardar el valor en el contexto de flujo sin espacios en el nombre\nflow.set('Sensor_Temperatura', Sensor_Temperatura);\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 3790,
+        "y": 1360,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "440cac5a1fc04288",
+        "type": "function",
+        "z": "0e5350d9d41d0f33",
+        "name": "function 152",
+        "func": "let Sensor_Humedad = msg.payload;\nflow.set('Sensor_Humedad', Sensor_Humedad);\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 3770,
+        "y": 1060,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "1174f5982f64d6ea",
+        "type": "function",
+        "z": "0e5350d9d41d0f33",
+        "name": "function 153",
+        "func": "let Sensor_COV = msg.payload;\nflow.set('Sensor_COV', Sensor_COV);\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 3790,
+        "y": 1220,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "512c5698b6cb4afc",
+        "type": "function",
+        "z": "0e5350d9d41d0f33",
+        "name": "function 154",
+        "func": "\n// Obtener los valores de los sensores\nlet Sensor_Temperatura = flow.get('Sensor_Temperatura');\nlet Sensor_Humedad = flow.get('Sensor_Humedad');\nlet Sensor_TCOV = flow.get('Sensor_COV');\nlet Sensor_eCO2 = flow.get('Sensor_eCO2');\n\n// Variable que indica si es la primera vez que escribimos en el archivo\nlet esPrimeraVez = flow.get('esPrimeraVez');\n\n// Crear la primera fila con los nombres de las columnas si es la primera vez\nlet encabezado = '';\nif (esPrimeraVez) {\n    encabezado = 'Fecha,Temperatura,Humedad,TCOV,eCO2\\n';\n    flow.set('esPrimeraVez', false);  // Cambiar la variable para futuras ejecuciones\n}\n\n// Crear la fila de datos\nlet datos = [\n    new Date().toISOString(),  // Marca de tiempo al principio\n    Sensor_Temperatura,\n    Sensor_Humedad,\n    Sensor_TCOV,\n    Sensor_eCO2\n].join(',');\n\n// Concatenar encabezado y datos\nmsg.payload = encabezado + datos + '\\n';\n\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 3690,
+        "y": 1540,
+        "wires": [
+            [
+                "8c4a8d441c469d8d"
+            ]
+        ]
+    },
+    {
+        "id": "7c4adde5c68316f3",
+        "type": "file",
+        "z": "0e5350d9d41d0f33",
+        "name": "",
+        "filename": "RobotExploradorDeEmergencias/src/Otros/Sensores.csv",
+        "filenameType": "str",
+        "appendNewline": true,
+        "createDir": true,
+        "overwriteFile": "false",
+        "encoding": "none",
+        "x": 4250,
+        "y": 1540,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "6ee571ae70601306",
+        "type": "function",
+        "z": "0e5350d9d41d0f33",
+        "name": "function 161",
+        "func": "msg.payload = \"\";\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 3350,
+        "y": 340,
+        "wires": [
+            [
+                "ab17e26379c9aaaa"
+            ]
+        ]
+    },
+    {
+        "id": "8bd51ff6c71dc070",
+        "type": "link in",
+        "z": "0e5350d9d41d0f33",
+        "name": "link in 5",
+        "links": [
+            "b596a3261aa94a30",
+            "bff4f649f50527d4"
+        ],
+        "x": 3195,
+        "y": 340,
+        "wires": [
+            [
+                "6ee571ae70601306"
+            ]
+        ]
+    },
+    {
+        "id": "2c6d31329688f072",
+        "type": "function",
+        "z": "0e5350d9d41d0f33",
+        "name": "function 162",
+        "func": "// Recupera el valor desde el contexto del flujo\nlet Activacion1 = flow.get('Activacion1');\n\n// Verifica el valor de Activacion y ajusta msg.payload si es necesario\nif (Activacion1 !== 0) {\n   return msg;\n} else {\n    return null;\n}\n\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 3450,
+        "y": 1540,
+        "wires": [
+            [
+                "2f048abd899bfda9"
+            ]
+        ]
+    },
+    {
+        "id": "2f048abd899bfda9",
+        "type": "file in",
+        "z": "0e5350d9d41d0f33",
+        "name": "",
+        "filename": "RobotExploradorDeEmergencias/src/Otros/Sensores.csv",
+        "filenameType": "str",
+        "format": "utf8",
+        "chunk": false,
+        "sendError": false,
+        "encoding": "none",
+        "allProps": true,
+        "x": 3650,
+        "y": 1660,
+        "wires": [
+            [
+                "ebb706fe4327a6b2",
+                "9005a01048a9c654",
+                "01b074d7c67f36ee",
+                "16bdc09944f80f0e"
+            ]
+        ]
+    },
+    {
+        "id": "ebb706fe4327a6b2",
+        "type": "function",
+        "z": "0e5350d9d41d0f33",
+        "name": "function 165",
+        "func": "\n// Obtener el payload del mensaje, que se espera sea una cadena CSV\nlet data = msg.payload.split('\\n');  // Divide el CSV por líneas\nlet series = [\"Humedad\"];  // Nombres de las series, puedes cambiar estos nombres según necesites\nlet seriesData = [[]];  // Array para almacenar los datos de cada serie\n\ndata.forEach((line) => {\n    if (line.trim() !== '') {  // Evitar procesar líneas vacías\n        let parts = line.split(',');  // Divide cada línea por comas\n\n        let time = new Date(parts[0].trim()).getTime();  // Convertir la fecha a timestamp\n        let values = parts.slice(2).map(v => parseFloat(v.trim()));  // Convertir valores a números\n\n        // Asumimos que hay un valor por cada serie, en el orden A, B, C\n        for (let i = 0; i < values.length; i++) {\n            if (seriesData[i]) {\n                seriesData[i].push({ x: time, y: values[i] });\n            }\n        }\n    }\n});\n\n// Preparar el mensaje de salida\nmsg.payload = [{\n    series: series,\n    data: seriesData,\n    labels: [\"\"]\n}];\n\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 3970,
+        "y": 1660,
+        "wires": [
+            [
+                "808cf363823576b0"
+            ]
+        ]
+    },
+    {
+        "id": "9005a01048a9c654",
+        "type": "function",
+        "z": "0e5350d9d41d0f33",
+        "name": "function 166",
+        "func": "\n// Obtener el payload del mensaje, que se espera sea una cadena CSV\nlet data = msg.payload.split('\\n');  // Divide el CSV por líneas\nlet series = [\"Temperatura\"];  // Nombres de las series, puedes cambiar estos nombres según necesites\nlet seriesData = [[]];  // Array para almacenar los datos de cada serie\n\ndata.forEach((line) => {\n    if (line.trim() !== '') {  // Evitar procesar líneas vacías\n        let parts = line.split(',');  // Divide cada línea por comas\n\n        let time = new Date(parts[0].trim()).getTime();  // Convertir la fecha a timestamp\n        let values = parts.slice(1).map(v => parseFloat(v.trim()));  // Convertir valores a números\n\n        // Asumimos que hay un valor por cada serie, en el orden A, B, C\n        for (let i = 0; i < values.length; i++) {\n            if (seriesData[i]) {\n                seriesData[i].push({ x: time, y: values[i] });\n            }\n        }\n    }\n});\n\n// Preparar el mensaje de salida\nmsg.payload = [{\n    series: series,\n    data: seriesData,\n    labels: [\"\"]\n}];\n\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 3970,
+        "y": 1720,
+        "wires": [
+            [
+                "00274fd976270bd5"
+            ]
+        ]
+    },
+    {
+        "id": "3783f0181a2c4048",
+        "type": "function",
+        "z": "0e5350d9d41d0f33",
+        "name": "function 167",
+        "func": "let Modo = flow.get('Modo');\n\n// Obtener la fecha y hora actual en formato YYYY-MM-DD_HH-MM-SS\nlet now = new Date();\nlet fecha = now.toISOString().split('T')[0];  // Formato: YYYY-MM-DD\nlet hora = now.toTimeString().split(' ')[0].replace(/:/g, '-'); // Formato: HH-MM-SS\n\n// Verifica el valor de Modo y ajusta msg.payload si es necesario\nif (Modo == 3) {\n    flow.set('Archivo_Automatico', msg.payload + `_${fecha}_${hora}`);\n} else {\n    return null;  // No envía ningún mensaje si Modo no es igual a 3\n}\n\nreturn msg;  // Devuelve el mensaje con el nombre del archivo\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 4230,
+        "y": 800,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "8c4a8d441c469d8d",
+        "type": "function",
+        "z": "0e5350d9d41d0f33",
+        "name": "function 170",
+        "func": "// Recupera el valor desde el contexto del flujo\nlet Activacion1 = flow.get('Activacion1');\n\n// Verifica el valor de Activacion y ajusta msg.payload si es necesario\nif (Activacion1 !== 0) {\n   return msg;\n} else {\n    return null;\n}\n\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 3890,
+        "y": 1540,
+        "wires": [
+            [
+                "7c4adde5c68316f3"
+            ]
+        ]
+    },
+    {
+        "id": "0bd1ca1e156f7f48",
+        "type": "file",
+        "z": "0e5350d9d41d0f33",
+        "name": "",
+        "filename": "filename",
+        "filenameType": "msg",
+        "appendNewline": true,
+        "createDir": true,
+        "overwriteFile": "false",
+        "encoding": "none",
+        "x": 4720,
+        "y": 340,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "310375d62f64afed",
+        "type": "file in",
+        "z": "0e5350d9d41d0f33",
+        "name": "",
+        "filename": "RobotExploradorDeEmergencias/src/Otros/video.avi",
+        "filenameType": "str",
+        "format": "stream",
+        "chunk": false,
+        "sendError": false,
+        "encoding": "none",
+        "allProps": true,
+        "x": 4220,
+        "y": 340,
+        "wires": [
+            [
+                "2ece1b19172c6817"
+            ]
+        ]
+    },
+    {
+        "id": "efe12db3ca8afe65",
+        "type": "function",
+        "z": "0e5350d9d41d0f33",
+        "name": "function 173",
+        "func": "let Nombre = flow.get('Archivo_Automatico');\n\nif (Nombre) {\n    msg.payload = Nombre + \".csv     \" + Nombre + \".avi\"\nreturn msg;\n} \n\n\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 3350,
+        "y": 260,
+        "wires": [
+            [
+                "ab17e26379c9aaaa"
+            ]
+        ]
+    },
+    {
+        "id": "71270fecccb0bdd8",
+        "type": "function",
+        "z": "0e5350d9d41d0f33",
+        "name": "function 176",
+        "func": "\nlet Activacion1 = flow.get('Activacion');\n\nif (Activacion1 !== 0 ) {\n} else {\n    return null;\n}\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 3790,
+        "y": 340,
+        "wires": [
+            [
+                "94fc5c9012addfc4",
+                "7e07b8ed5246a26d",
+                "99f5422561d57b56",
+                "310375d62f64afed"
+            ]
+        ]
+    },
+    {
+        "id": "1c2dbbfad4e65b9f",
+        "type": "mqtt in",
+        "z": "0e5350d9d41d0f33",
+        "name": "",
+        "topic": "eCO2",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "9ee4d058209f2a27",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 3310,
+        "y": 1420,
+        "wires": [
+            [
+                "d57d4e0fe04bc87a",
+                "e2d7daabc09c7e52"
+            ]
+        ]
+    },
+    {
+        "id": "d57d4e0fe04bc87a",
+        "type": "function",
+        "z": "0e5350d9d41d0f33",
+        "name": "Format Temperature",
+        "func": "msg.payload = msg.payload + 'ppm';\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 3800,
+        "y": 1420,
+        "wires": [
+            [
+                "d052a7594023c3f2"
+            ]
+        ]
+    },
+    {
+        "id": "e2d7daabc09c7e52",
+        "type": "function",
+        "z": "0e5350d9d41d0f33",
+        "name": "function 177",
+        "func": "// Obtener el valor de temperatura\nlet eCO2 = msg.payload;\n\n// Guardar el valor en el contexto de flujo sin espacios en el nombre\nflow.set('Sensor_eCO2', eCO2);\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 3770,
+        "y": 1480,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "01b074d7c67f36ee",
+        "type": "function",
+        "z": "0e5350d9d41d0f33",
+        "name": "function 178",
+        "func": "\n// Obtener el payload del mensaje, que se espera sea una cadena CSV\nlet data = msg.payload.split('\\n');  // Divide el CSV por líneas\nlet series = [\"eCO2\"];  // Nombres de las series, puedes cambiar estos nombres según necesites\nlet seriesData = [[]];  // Array para almacenar los datos de cada serie\n\ndata.forEach((line) => {\n    if (line.trim() !== '') {  // Evitar procesar líneas vacías\n        let parts = line.split(',');  // Divide cada línea por comas\n\n        let time = new Date(parts[0].trim()).getTime();  // Convertir la fecha a timestamp\n        let values = parts.slice(4).map(v => parseFloat(v.trim()));  // Convertir valores a números\n\n        // Asumimos que hay un valor por cada serie, en el orden A, B, C\n        for (let i = 0; i < values.length; i++) {\n            if (seriesData[i]) {\n                seriesData[i].push({ x: time, y: values[i] });\n            }\n        }\n    }\n});\n\n// Preparar el mensaje de salida\nmsg.payload = [{\n    series: series,\n    data: seriesData,\n    labels: [\"\"]\n}];\n\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 3970,
+        "y": 1780,
+        "wires": [
+            [
+                "f858b6b5e63eea01"
+            ]
+        ]
+    },
+    {
+        "id": "16bdc09944f80f0e",
+        "type": "function",
+        "z": "0e5350d9d41d0f33",
+        "name": "function 179",
+        "func": "\n// Obtener el payload del mensaje, que se espera sea una cadena CSV\nlet data = msg.payload.split('\\n');  // Divide el CSV por líneas\nlet series = [\"TCOV\"];  // Nombres de las series, puedes cambiar estos nombres según necesites\nlet seriesData = [[]];  // Array para almacenar los datos de cada serie\n\ndata.forEach((line) => {\n    if (line.trim() !== '') {  // Evitar procesar líneas vacías\n        let parts = line.split(',');  // Divide cada línea por comas\n\n        let time = new Date(parts[0].trim()).getTime();  // Convertir la fecha a timestamp\n        let values = parts.slice(3).map(v => parseFloat(v.trim()));  // Convertir valores a números\n\n        // Asumimos que hay un valor por cada serie, en el orden A, B, C\n        for (let i = 0; i < values.length; i++) {\n            if (seriesData[i]) {\n                seriesData[i].push({ x: time, y: values[i] });\n            }\n        }\n    }\n});\n\n// Preparar el mensaje de salida\nmsg.payload = [{\n    series: series,\n    data: seriesData,\n    labels: [\"\"]\n}];\n\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 3990,
+        "y": 1600,
+        "wires": [
+            [
+                "5b586e9400f30bb8"
+            ]
+        ]
+    },
+    {
+        "id": "d2a569778f6b7582",
+        "type": "link in",
+        "z": "0e5350d9d41d0f33",
+        "name": "link in 6",
+        "links": [
+            "727d47b64c6b3b7e"
+        ],
+        "x": 3195,
+        "y": 260,
+        "wires": [
+            [
+                "efe12db3ca8afe65"
+            ]
+        ]
+    },
+    {
+        "id": "5910594254436210",
+        "type": "comment",
+        "z": "0e5350d9d41d0f33",
+        "name": "Accionamientos",
+        "info": "",
+        "x": 3140,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "1394cb5deb36c196",
+        "type": "comment",
+        "z": "0e5350d9d41d0f33",
+        "name": "Sensores atmosfericos",
+        "info": "",
+        "x": 3180,
+        "y": 900,
+        "wires": []
+    },
+    {
+        "id": "aa7a6a167e5d449c",
+        "type": "comment",
+        "z": "0e5350d9d41d0f33",
+        "name": "Asistente de voz",
+        "info": "",
+        "x": 3220,
+        "y": 1920,
+        "wires": []
+    },
+    {
+        "id": "b82d6a6045c5904c",
+        "type": "mqtt in",
+        "z": "0e5350d9d41d0f33",
+        "name": "",
+        "topic": "Texto_Entrada",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "9ee4d058209f2a27",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 3350,
+        "y": 2220,
+        "wires": [
+            [
+                "3236bb8ddfb8c745"
+            ]
+        ]
+    },
+    {
+        "id": "96595f4f98ddccf0",
+        "type": "mqtt out",
+        "z": "0e5350d9d41d0f33",
+        "name": "",
+        "topic": "Texto_Salida",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "9ee4d058209f2a27",
+        "x": 4630,
+        "y": 2340,
+        "wires": []
+    },
+    {
+        "id": "7ce55c23f759481f",
+        "type": "ui_text_input",
+        "z": "0e5350d9d41d0f33",
+        "name": "",
+        "label": "Archivo",
+        "tooltip": "",
+        "group": "dec52c40882cf09a",
+        "order": 7,
+        "width": 6,
+        "height": 1,
+        "passthru": false,
+        "mode": "text",
+        "delay": "4000",
+        "topic": "topic",
+        "sendOnBlur": false,
+        "className": "",
+        "topicType": "msg",
+        "x": 3720,
+        "y": 680,
+        "wires": [
+            [
+                "9c1e3292f9195308",
+                "3e186b6ca601790d"
+            ]
+        ]
+    },
+    {
+        "id": "ab17e26379c9aaaa",
+        "type": "ui_text_input",
+        "z": "0e5350d9d41d0f33",
+        "name": "",
+        "label": "Guardar datos",
+        "tooltip": "",
+        "group": "3ede91e6f8dcc76b",
+        "order": 1,
+        "width": 17,
+        "height": 1,
+        "passthru": false,
+        "mode": "text",
+        "delay": "3000",
+        "topic": "payload",
+        "sendOnBlur": false,
+        "className": "",
+        "topicType": "msg",
+        "x": 3620,
+        "y": 340,
+        "wires": [
+            [
+                "71270fecccb0bdd8"
+            ]
+        ]
+    },
+    {
+        "id": "e4563bf4339599b0",
+        "type": "ui_text",
+        "z": "0e5350d9d41d0f33",
+        "group": "440d91e80e7894ce",
+        "order": 2,
+        "width": 5,
+        "height": 1,
+        "name": "",
+        "label": "Temperatura:",
+        "format": "{{msg.payload}}",
+        "layout": "row-center",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": "",
+        "color": "#000000",
+        "x": 4130,
+        "y": 1300,
+        "wires": []
+    },
+    {
+        "id": "d592e5b766a01bbc",
+        "type": "ui_text",
+        "z": "0e5350d9d41d0f33",
+        "group": "440d91e80e7894ce",
+        "order": 4,
+        "width": 5,
+        "height": 1,
+        "name": "",
+        "label": "Humedad:",
+        "format": "{{msg.payload}}",
+        "layout": "row-center",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": "",
+        "color": "#000000",
+        "x": 4130,
+        "y": 1000,
+        "wires": []
+    },
+    {
+        "id": "40c97bc108642344",
+        "type": "ui_text",
+        "z": "0e5350d9d41d0f33",
+        "group": "440d91e80e7894ce",
+        "order": 3,
+        "width": 5,
+        "height": 1,
+        "name": "",
+        "label": "TVOC:",
+        "format": "{{msg.payload}}",
+        "layout": "row-center",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": "",
+        "color": "#000000",
+        "x": 4110,
+        "y": 1140,
+        "wires": []
+    },
+    {
+        "id": "d052a7594023c3f2",
+        "type": "ui_text",
+        "z": "0e5350d9d41d0f33",
+        "group": "440d91e80e7894ce",
+        "order": 5,
+        "width": 5,
+        "height": 1,
+        "name": "",
+        "label": "eCO2:",
+        "format": "{{msg.payload}}",
+        "layout": "row-center",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": "",
+        "color": "#000000",
+        "x": 4090,
+        "y": 1420,
+        "wires": []
+    },
+    {
+        "id": "808cf363823576b0",
+        "type": "ui_chart",
+        "z": "0e5350d9d41d0f33",
+        "name": "",
+        "group": "6d6fbd98c4a63c06",
+        "order": 3,
+        "width": 9,
+        "height": 6,
+        "label": "Humedad(%) vs Tiempo",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": true,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": "10",
+        "removeOlderPoints": "",
+        "removeOlderUnit": "86400",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 4230,
+        "y": 1660,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "5b586e9400f30bb8",
+        "type": "ui_chart",
+        "z": "0e5350d9d41d0f33",
+        "name": "",
+        "group": "6d6fbd98c4a63c06",
+        "order": 2,
+        "width": 9,
+        "height": 6,
+        "label": "TVOC(ppb) vs Tiempo",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": true,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "86400",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 4220,
+        "y": 1600,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "00274fd976270bd5",
+        "type": "ui_chart",
+        "z": "0e5350d9d41d0f33",
+        "name": "",
+        "group": "6d6fbd98c4a63c06",
+        "order": 1,
+        "width": 9,
+        "height": 6,
+        "label": "Temperatura(ºC) vs Tiempo",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "bezier",
+        "nodata": "",
+        "dot": true,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": "10",
+        "removeOlderPoints": "",
+        "removeOlderUnit": "86400",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 4240,
+        "y": 1720,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "f858b6b5e63eea01",
+        "type": "ui_chart",
+        "z": "0e5350d9d41d0f33",
+        "name": "",
+        "group": "6d6fbd98c4a63c06",
+        "order": 4,
+        "width": 9,
+        "height": 6,
+        "label": "eCO2(ppm) vs Tiempo",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "bezier",
+        "nodata": "",
+        "dot": true,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": "10",
+        "removeOlderPoints": "",
+        "removeOlderUnit": "86400",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 4220,
+        "y": 1780,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "083e1ea56df2b2e1",
+        "type": "ui_toast",
+        "z": "0e5350d9d41d0f33",
+        "position": "top right",
+        "displayTime": "3",
+        "highlight": " ",
+        "sendall": true,
+        "outputs": 0,
+        "ok": "OK",
+        "cancel": "",
+        "raw": false,
+        "className": " ",
+        "topic": " ",
+        "name": "",
+        "x": 4650,
+        "y": 2260,
+        "wires": []
+    },
+    {
+        "id": "b6787f13b3ff831f",
+        "type": "function",
+        "z": "0e5350d9d41d0f33",
+        "name": "function 2",
+        "func": "let Nombre = flow.get('Nombre');\nmsg.filename = \"Escritorio/RobotExploradorDeEmergencias/Datos/\" + Nombre + \".csv\";\nmsg.payload = msg.payload;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 4520,
+        "y": 440,
+        "wires": [
+            [
+                "374ef4272cbfb8e6"
+            ]
+        ]
+    },
+    {
+        "id": "2ece1b19172c6817",
+        "type": "function",
+        "z": "0e5350d9d41d0f33",
+        "name": "function 3",
+        "func": "let Nombre = flow.get('Nombre');\nmsg.filename = \"Escritorio/RobotExploradorDeEmergencias/Datos/\"+Nombre+ \".avi\";\nmsg.payload = msg.payload;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 4540,
+        "y": 340,
+        "wires": [
+            [
+                "0bd1ca1e156f7f48"
+            ]
+        ]
+    },
+    {
+        "id": "f25a76e7a5248257",
+        "type": "inject",
+        "z": "0e5350d9d41d0f33",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "encender sirena",
+        "payloadType": "str",
+        "x": 3320,
+        "y": 2140,
+        "wires": [
+            [
+                "abb4f27f52a19d18",
+                "1665d2aad5f0e6d7",
+                "10fb4bf38a7753cb"
+            ]
+        ]
+    },
+    {
+        "id": "228409b718ac6707",
+        "type": "ui_media",
+        "z": "0e5350d9d41d0f33",
+        "group": "3740b432d67e7e1c",
+        "name": "",
+        "width": 4,
+        "height": 2,
+        "order": 3,
+        "category": "Logo",
+        "file": "senialab-removebg-preview.png",
+        "layout": "adjust",
+        "showcontrols": true,
+        "loop": true,
+        "onstart": false,
+        "scope": "local",
+        "tooltip": "",
+        "x": 170,
+        "y": 100,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "dc662017f7f853af",
+        "type": "ui_media",
+        "z": "0e5350d9d41d0f33",
+        "group": "12262bf9ba072d26",
+        "name": "",
+        "width": 4,
+        "height": 2,
+        "order": 3,
+        "category": "Logo",
+        "file": "senialab-removebg-preview.png",
+        "layout": "adjust",
+        "showcontrols": true,
+        "loop": true,
+        "onstart": false,
+        "scope": "local",
+        "tooltip": "",
+        "x": 290,
+        "y": 100,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "fc31546246d01b73",
+        "type": "ui_template",
+        "z": "0e5350d9d41d0f33",
+        "group": "dec52c40882cf09a",
+        "name": "Texto Centrado",
+        "order": 1,
+        "width": 13,
+        "height": 1,
+        "format": "<div\n    style=\"display: flex; align-items: center; justify-content: center; height: 100%; background-color: white; border: 1px solid #ccc;\">\n    <span style=\"font-size: 2.5vw; color: black;\">ACTUADORES</span>\n</div>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 200,
+        "y": 160,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "3a5c700a24597c3f",
+        "type": "ui_template",
+        "z": "0e5350d9d41d0f33",
+        "group": "3740b432d67e7e1c",
+        "name": "",
+        "order": 1,
+        "width": 8,
+        "height": 2,
+        "format": "<div style=\"display: flex; align-items: center; justify-content: center; height: 100vh; background-color: #f2f2f2;\">\n    <div style=\"text-align: center;\">\n        <span style=\"font-size: 3.5vw; color: black;\"><strong>ROBOT EXPLORADOR</strong></span><br>\n        <span style=\"font-size: 3.5vw; color: black;\"><strong>DE EMERGENCIAS</strong></span>\n    </div>\n</div>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 420,
+        "y": 100,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "87c89b89c5e66efd",
+        "type": "ui_template",
+        "z": "0e5350d9d41d0f33",
+        "group": "12262bf9ba072d26",
+        "name": "",
+        "order": 2,
+        "width": 9,
+        "height": 2,
+        "format": "<div style=\"display: flex; align-items: center; justify-content: center; height: 100vh; background-color: #f2f2f2;\">\n    <div style=\"text-align: center;\">\n        <span style=\"font-size: 3.5vw; color: black;\"><strong>ROBOT EXPLORADOR</strong></span><br>\n        <span style=\"font-size: 3.5vw; color: black;\"><strong>DE EMERGENCIAS</strong></span>\n    </div>\n</div>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 360,
+        "y": 160,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "0fadeb54c05834db",
+        "type": "ui_template",
+        "z": "0e5350d9d41d0f33",
+        "group": "",
+        "name": "",
+        "order": 5,
+        "width": 1,
+        "height": 1,
+        "format": "<style>\n    .Azul {\n        background-color: rgba(84, 109, 110, 0.9) !important;\n        border-radius: 10px !important;\n        color: black !important;\n        /* Color negro para el texto */\n    }\n\n    .Azul i,\n    /* Para iconos de fuente, como FontAwesome */\n    .Azul svg {\n        /* Para iconos SVG */\n        color: #d3d3d3 !important;\n        /* Gris claro para los iconos */\n    }\n</style>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "global",
+        "className": "",
+        "x": 860,
+        "y": 100,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "c6b3f63b1f6a2e37",
+        "type": "ui_template",
+        "z": "0e5350d9d41d0f33",
+        "group": "",
+        "name": "",
+        "order": 1,
+        "width": 1,
+        "height": 1,
+        "format": "<style>\n    .Blanco {\n        background-color: rgba(159, 198, 199, 0.4) !important;\n        border-radius: 10px !important;\n        \n    }\n</style>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "global",
+        "className": "",
+        "x": 1000,
+        "y": 100,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "11c6db59bf9f1999",
+        "type": "ui_template",
+        "z": "0e5350d9d41d0f33",
+        "group": "",
+        "name": "",
+        "order": 3,
+        "width": 1,
+        "height": 1,
+        "format": "<style>\n    .Gris {\n        background-color: rgba(147, 163, 163, 0.4) !important;\n        border-radius: 10px !important;\n        \n    }\n</style>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "global",
+        "className": "",
+        "x": 800,
+        "y": 160,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "f04c7e047f387b30",
+        "type": "ui_template",
+        "z": "0e5350d9d41d0f33",
+        "group": "",
+        "name": "",
+        "order": 7,
+        "width": 1,
+        "height": 1,
+        "format": "<style>\n    .Boton {\n        background-color: rgba(160, 163, 163, 0.5) !important;\n        border-radius: 10px !important;\n    }\n</style>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "global",
+        "className": "",
+        "x": 940,
+        "y": 160,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "ea836fb3015399db",
+        "type": "ui_template",
+        "z": "0e5350d9d41d0f33",
+        "group": "e111c29070c5954c",
+        "name": "",
+        "order": 1,
+        "width": 1,
+        "height": 1,
+        "format": "<link rel=\"stylesheet\" href=\"RobotExploradorDeEmergencias/src/Otros/static/css/all.min.css\">\n<div style=\"display: flex; align-items: center; justify-content: center; width: 100%; height: 100%;\">\n    <i class=\"fas fa-wifi\" style=\"font-size: 100%; color: #000000;\"></i>\n</div>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 660,
+        "y": 160,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "0b530ea4310ec0a2",
+        "type": "ui_template",
+        "z": "0e5350d9d41d0f33",
+        "group": "e111c29070c5954c",
+        "name": "bateria",
+        "order": 8,
+        "width": 1,
+        "height": 1,
+        "format": "<link rel=\"stylesheet\" href=\"css/all.min.css\">\n\n<div style=\"display: flex; align-items: center; justify-content: center; width: 100%; height: 100%;\">\n    <i class=\"fas fa-battery-full\" style=\"font-size: 100%; color: #000000;\"></i>\n</div>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 730,
+        "y": 100,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "0cb379119d484ad2",
+        "type": "ui_template",
+        "z": "0e5350d9d41d0f33",
+        "group": "3ede91e6f8dcc76b",
+        "name": "",
+        "order": 2,
+        "width": 1,
+        "height": 1,
+        "format": "<link rel=\"stylesheet\" href=\"/css/all.min.css\">\n<div style=\"display: flex; align-items: center; justify-content: center; width: 100%; height: 100%;\">\n    <i class=\"fas fa-save\" style=\"font-size: 150%; color: #000000;\"></i>\n</div>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 1080,
+        "y": 160,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "5445fa92ffa0f5fc",
+        "type": "ui_template",
+        "z": "0e5350d9d41d0f33",
+        "group": "440d91e80e7894ce",
+        "name": "Texto Centrado",
+        "order": 1,
+        "width": 3,
+        "height": 2,
+        "format": "<div\n    style=\"display: flex; align-items: center; justify-content: center; height: 100%; background-color: white; border: 1px solid #ccc;\">\n    <span style=\"font-size: 2.5vw; color: black;\">SENSORES</span>\n</div>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 580,
+        "y": 100,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "2164dc5fc70e5a34",
+        "type": "ui_template",
+        "z": "0e5350d9d41d0f33",
+        "group": "",
+        "name": "CSS-Basics",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "format": "<style>\n    /* Estilos generales del cuerpo y del fondo */\n    body {\n        background: transparent !important;\n        background: -webkit-linear-gradient(55deg, #009785 0%, #245aa5 100%) !important;\n        -webkit-touch-callout: none !important;\n        color: #ffffff !important;\n        padding-top: 5px !important;\n    }\n\n    /* Estilos para el panel de tarjeta */\n    ui-card-panel {\n        background-color: rgba(250, 250, 250, 0) !important;\n        border: none !important;\n        border-radius: 10px !important;\n    }\n\n    /* Estilos específicos para la barra de herramientas */\n    md-toolbar {\n        background: none !important;\n    }\n\n    /* Estilos para el panel de navegación lateral */\n    md-sidenav {\n        background: linear-gradient(120deg, rgba(40, 42, 49, 0.90) 20%, rgba(47, 49, 56, 0.90) 80%) !important;\n    }\n\n    /* Anular estilos para botones dentro de tarjetas */\n    md-card.nr-dashboard-button * {\n        box-shadow: none !important;\n    }\n\n    /* Anular estilos para plantillas dentro de tarjetas */\n    md-card.nr-dashboard-template * {\n        background: none !important;\n    }\n\n    /* Anular estilos para el contenido dentro de tarjetas */\n    ui-card-panel>div.nr-dashboard-cardpanel>div>md-card {\n        background: none !important;\n    }\n\n    /* Estilos para el nodo node-red-contrib-ui-media */\n    .ui-media {\n        display: block !important;\n        width: 100% !important;\n        /* Ajustar al ancho máximo disponible */\n        height: auto !important;\n        /* Ajustar automáticamente la altura */\n        border-radius: 10px;\n        /* Opcional: bordes redondeados */\n        background-color: rgba(84, 109, 110, 0.7) !important;\n        /* Color de fondo con transparencia */\n        padding: 10px;\n        /* Ajustar el espacio interior */\n        box-sizing: border-box;\n        /* Incluir padding en el tamaño total */\n    }\n\n    /* Estilos para el nodo microphone */\n    .ui-microphone {\n        display: block !important;\n        width: 100% !important;\n        /* Ajustar al ancho máximo disponible */\n        height: auto !important;\n        /* Ajustar automáticamente la altura */\n        background-color: rgba(84, 109, 110, 0.7) !important;\n        /* Color de fondo con transparencia */\n        border-radius: 10px;\n        /* Opcional: bordes redondeados */\n        padding: 10px;\n        /* Ajustar el espacio interior */\n        box-sizing: border-box;\n        /* Incluir padding en el tamaño total */\n    }\n</style>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": false,
+        "templateScope": "global",
+        "className": "",
+        "x": 510,
+        "y": 160,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "197531ff7f4c58db",
+        "type": "ui_spacer",
+        "z": "0e5350d9d41d0f33",
+        "name": "spacer",
+        "group": "3740b432d67e7e1c",
+        "order": 2,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "81958f690b1f8de2",
+        "type": "ui_spacer",
+        "z": "0e5350d9d41d0f33",
+        "name": "spacer",
+        "group": "3740b432d67e7e1c",
+        "order": 4,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "034673e03ee094c9",
+        "type": "ui_spacer",
+        "z": "0e5350d9d41d0f33",
+        "name": "spacer",
+        "group": "3740b432d67e7e1c",
+        "order": 5,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "e4c472703b72dd94",
+        "type": "ui_spacer",
+        "z": "0e5350d9d41d0f33",
+        "name": "spacer",
+        "group": "3740b432d67e7e1c",
+        "order": 6,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "e7a195778a343673",
+        "type": "ui_spacer",
+        "z": "0e5350d9d41d0f33",
+        "name": "spacer",
+        "group": "dec52c40882cf09a",
+        "order": 3,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "272f0fe1b1365d6b",
+        "type": "ui_spacer",
+        "z": "0e5350d9d41d0f33",
+        "name": "spacer",
+        "group": "dec52c40882cf09a",
+        "order": 6,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "5bcc193f4ec309ff",
+        "type": "ui_spacer",
+        "z": "0e5350d9d41d0f33",
+        "name": "spacer",
+        "group": "dec52c40882cf09a",
+        "order": 9,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "c81820eefe2b1f49",
+        "type": "ui_spacer",
+        "z": "0e5350d9d41d0f33",
+        "name": "spacer",
+        "group": "e111c29070c5954c",
+        "order": 3,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "6ae6118fe8252085",
+        "type": "ui_spacer",
+        "z": "0e5350d9d41d0f33",
+        "name": "spacer",
+        "group": "e111c29070c5954c",
+        "order": 4,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "28f18c3da67ffbf9",
+        "type": "ui_spacer",
+        "z": "0e5350d9d41d0f33",
+        "name": "spacer",
+        "group": "e111c29070c5954c",
+        "order": 5,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "8e9d4f718e2a86c5",
+        "type": "ui_spacer",
+        "z": "0e5350d9d41d0f33",
+        "name": "spacer",
+        "group": "e111c29070c5954c",
+        "order": 6,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "592da4d160dc4268",
+        "type": "ui_spacer",
+        "z": "0e5350d9d41d0f33",
+        "name": "spacer",
+        "group": "e111c29070c5954c",
+        "order": 7,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "3499ea186579c47b",
+        "type": "ui_spacer",
+        "z": "0e5350d9d41d0f33",
+        "name": "spacer",
+        "group": "e111c29070c5954c",
+        "order": 10,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "b338972bed27b072",
+        "type": "ui_spacer",
+        "z": "0e5350d9d41d0f33",
+        "name": "spacer",
+        "group": "e111c29070c5954c",
+        "order": 11,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "b03c9c15799b2c7e",
+        "type": "ui_spacer",
+        "z": "0e5350d9d41d0f33",
+        "name": "spacer",
+        "group": "e111c29070c5954c",
+        "order": 12,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "64c8db15aa7c3ce7",
+        "type": "ui_spacer",
+        "z": "0e5350d9d41d0f33",
+        "name": "spacer",
+        "group": "e111c29070c5954c",
+        "order": 13,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "d842bb010672e37f",
+        "type": "ui_spacer",
+        "z": "0e5350d9d41d0f33",
+        "name": "spacer",
+        "group": "e111c29070c5954c",
+        "order": 14,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "12262bf9ba072d26",
+        "type": "ui_group",
+        "name": "Group 1",
+        "tab": "61f76dba430049b5",
+        "order": 1,
+        "disp": false,
+        "width": 17,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "9ee4d058209f2a27",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "192.168.8.20",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "e111c29070c5954c",
+        "type": "ui_group",
+        "name": "Group 2",
+        "tab": "e9377ab4ddf357fa",
+        "order": 5,
+        "disp": false,
+        "width": 5,
+        "collapse": false,
+        "className": "Gris"
+    },
+    {
+        "id": "dec52c40882cf09a",
+        "type": "ui_group",
+        "name": "EmergencyRobot",
+        "tab": "e9377ab4ddf357fa",
+        "order": 4,
+        "disp": false,
+        "width": "13",
+        "collapse": false,
+        "className": "Blanco"
+    },
+    {
+        "id": "e986e682fae2fb85",
+        "type": "ui_group",
+        "name": "Group 7",
+        "tab": "e9377ab4ddf357fa",
+        "order": 2,
+        "disp": false,
+        "width": "2",
+        "collapse": false,
+        "className": "Boton"
+    },
+    {
+        "id": "0b832ea2834e7f39",
+        "type": "ui_group",
+        "name": "Group 6",
+        "tab": "e9377ab4ddf357fa",
+        "order": 1,
+        "disp": false,
+        "width": 2,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "3ede91e6f8dcc76b",
+        "type": "ui_group",
+        "name": "Group 3",
+        "tab": "61f76dba430049b5",
+        "order": 3,
+        "disp": false,
+        "width": "18",
+        "collapse": false,
+        "className": "Azul"
+    },
+    {
+        "id": "440d91e80e7894ce",
+        "type": "ui_group",
+        "name": "Group 4",
+        "tab": "e9377ab4ddf357fa",
+        "order": 6,
+        "disp": false,
+        "width": 13,
+        "collapse": false,
+        "className": "Gris"
+    },
+    {
+        "id": "6d6fbd98c4a63c06",
+        "type": "ui_group",
+        "name": "Group 2",
+        "tab": "61f76dba430049b5",
+        "order": 2,
+        "disp": false,
+        "width": "18",
+        "collapse": false,
+        "className": "Gris"
+    },
+    {
+        "id": "3740b432d67e7e1c",
+        "type": "ui_group",
+        "name": "Group 3",
+        "tab": "e9377ab4ddf357fa",
+        "order": 3,
+        "disp": false,
+        "width": 14,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "61f76dba430049b5",
+        "type": "ui_tab",
+        "name": "Gráficas sensores",
+        "icon": "trending_up",
+        "order": 2,
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "e9377ab4ddf357fa",
+        "type": "ui_tab",
+        "name": "Panel de control",
+        "icon": "dashboard",
+        "order": 1,
+        "disabled": false,
+        "hidden": false
+    }
+]
